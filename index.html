@@ -563,6 +563,9 @@
         body.viewer-mode-active #applyDiskBtn,
         body.viewer-mode-active #randomizeBtn,
         body.viewer-mode-active #compareBtn,
+        body.viewer-mode-active #timePicker,
+        body.viewer-mode-active #resetTimeBtn,
+        body.viewer-mode-active #timepickerlabel,
         body.viewer-mode-active .log-panel {
             display: none !important;
         }
@@ -611,7 +614,7 @@
                         </div>
 
                         <div class="field-block">
-                            <label for="timePicker">Baseline Chronology Sync</label>
+                            <label for="timePicker" id="timepickerlabel">Baseline Chronology Sync</label>
                             <div class="input-wrapper">
                                 <input type="datetime-local" id="timePicker" step="1">
                                 <button id="resetTimeBtn" class="btn-reset" title="Reset to Live Local Time">❌</button>
