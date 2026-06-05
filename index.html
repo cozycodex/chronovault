@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChronoVault</title>
+    <title>ChronoVault Web App</title>
     <style>
         :root {
             --bg-main: #f8fafc;
@@ -11,307 +11,269 @@
             --border-color: #e2e8f0;
             --text-main: #0f172a;
             --text-muted: #64748b;
-            --accent-primary: #3b82f6;
-            --accent-primary-hover: #2563eb;
-            --accent-success: #10b981;
-            --accent-success-hover: #059669;
-            --accent-purple: #8b5cf6;
-            --accent-purple-hover: #7c3aed;
-            --accent-danger: #ef4444;
-            --accent-danger-hover: #dc2626;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --accent-purple: #7c3aed;
+            --accent-purple-hover: #6d28d9;
+            --accent-green: #10b981;
+            --accent-green-hover: #059669;
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
+            --track-header: #f1f5f9;
+            --track-text: #1e3a8a;
             --console-bg: #0f172a;
             --console-text: #f8fafc;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 8px;
+            --accent-orange: #f97316;
+            --accent-orange-hover: #ea580c;
         }
 
         body.dark-mode {
-            --bg-main: #020617;
-            --bg-card: #0f172a;
-            --border-color: #1e293b;
+            --bg-main: #0b0f19;
+            --bg-card: #151f32;
+            --border-color: #223147;
             --text-main: #f1f5f9;
             --text-muted: #94a3b8;
-            --accent-primary: #3b82f6;
-            --accent-primary-hover: #2563eb;
-            --console-bg: #030712;
-            --console-text: #e2e8f0;
-        }
-
-        body.dark-mode input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-            filter: invert(1);
-            cursor: pointer;
-        }
-
-        /* Prevent entire page from scrolling */
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            overflow: hidden; 
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --track-header: #0f172a;
+            --track-text: #60a5fa;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
             background-color: var(--bg-main);
             color: var(--text-main);
+            transition: background-color 0.3s, color 0.3s;
             display: flex;
-            flex-direction: column;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            height: 100vh;
+            overflow: hidden;
+            width: 100vw;
+            box-sizing: border-box;
         }
 
-        /* ==========================================
-           GLASSMORPHISM LOGIN GATE STYLES
-           ========================================== */
-        #login-gate {
+        /* --- Login Overlay Glassmorphism Styles --- */
+        #auth-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: 99999;
+            background: rgba(15, 23, 42, 0.3);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Glassmorphism Background Blurring */
-            background: rgba(15, 23, 42, 0.3);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            transition: opacity 0.4s ease;
-        }
-
-        body.dark-mode #login-gate {
-            background: rgba(2, 6, 23, 0.5);
+            z-index: 99999;
+            transition: opacity 0.4s ease, visibility 0.4s;
         }
 
         .login-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.4);
             padding: 40px;
             border-radius: 16px;
-            width: 100%;
-            max-width: 360px;
-            box-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.15);
+            width: 340px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
             text-align: center;
             box-sizing: border-box;
         }
 
         body.dark-mode .login-card {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            background: rgba(21, 31, 50, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
         }
 
         .login-card h2 {
             margin: 0 0 8px 0;
             font-size: 22px;
-            font-weight: 700;
+            font-weight: 800;
+            letter-spacing: -0.025em;
         }
 
         .login-card p {
-            margin: 0 0 24px 0;
             font-size: 13px;
             color: var(--text-muted);
+            margin: 0 0 24px 0;
         }
 
-        .login-field {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        .login-input-group {
+            margin-bottom: 16px;
             text-align: left;
-            margin-bottom: 20px;
         }
 
-        .login-field label {
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .login-field input {
+        .login-input-group input {
             width: 100%;
             padding: 12px 14px;
             font-size: 14px;
-            border: 1px solid var(--border-color);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #0f172a;
+            background: rgba(255, 255, 255, 0.6);
+            color: var(--text-main);
             box-sizing: border-box;
-        }
-
-        body.dark-mode .login-field input {
-            background: rgba(3, 7, 18, 0.6);
-            color: #f8fafc;
-        }
-
-        .login-field input:focus {
             outline: none;
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            transition: all 0.2s ease;
         }
 
-        .login-error {
-            color: var(--accent-danger);
-            font-size: 13px;
-            font-weight: 600;
-            margin-top: -12px;
-            margin-bottom: 16px;
-            display: none;
+        body.dark-mode .login-input-group input {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* ==========================================
-           EXISTING STYLES
-           ========================================== */
-        .brand {
-            margin-bottom: 20px;
-            position: relative;
-            padding-right: 48px;
+        .login-input-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
         }
 
-        .brand h1 {
-            margin: 0;
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        .brand p {
-            margin: 4px 0 0 0;
+        #login-error-msg {
+            color: var(--danger);
             font-size: 12px;
-            color: var(--text-muted);
-            line-height: 1.4;
+            font-weight: 600;
+            margin-top: -8px;
+            margin-bottom: 16px;
+            min-height: 18px;
+            text-align: left;
         }
 
-        .dashboard-container {
+        /* --- End Login Styles --- */
+
+        /* --- Core Sizing & Layout Constraints Fix --- */
+        .sidebar {
+            width: 320px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
             display: flex;
             flex-direction: column;
             gap: 20px;
-            padding: 20px;
-            flex: 1;
+            overflow-y: auto;
             box-sizing: border-box;
-            max-width: 1600px;
-            margin: 0 auto;
-            width: 100%;
-            overflow: hidden; 
-        }
-
-        .workspace-grid {
-            display: grid;
-            grid-template-columns: 360px 1fr;
-            gap: 24px;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        @media (max-width: 1024px) {
-            .workspace-grid {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto 1fr;
-            }
-        }
-
-        .panel {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);
-            overflow: hidden; 
-        }
-
-        .log-panel {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 16px 20px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);
             flex-shrink: 0;
-            height: 190px; 
-            box-sizing: border-box;
+            height: 100%;
+            position: relative;
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .panel-title {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-            font-weight: 700;
-            margin-bottom: 12px;
+        .sidebar.collapsed {
+            margin-left: -320px;
+        }
+
+        .sidebar-toggle-tab {
+            position: fixed;
+            top: 50%;
+            left: 320px;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 72px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-left: none;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
-            flex-shrink: 0;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            box-shadow: 4px 0 8px -2px rgba(0, 0, 0, 0.08);
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s ease, color 0.2s ease;
+            user-select: none;
+            z-index: 9999;
+        }
+
+        .sidebar.collapsed + .sidebar-toggle-tab {
+            left: 0px;
+        }
+
+        body.dark-mode .sidebar-toggle-tab {
+            box-shadow: 4px 0 8px -2px rgba(0, 0, 0, 0.4);
+        }
+
+        .sidebar-toggle-tab:hover {
+            background: var(--track-header);
+            color: var(--text-main);
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            height: 100%;
+            min-width: 0; 
+            width: 100%;
+        }
+        /* --- End Sizing Layers --- */
+
+        h1 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            margin: 0 0 4px 0;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin: 0;
+            line-height: 1.4;
         }
 
         .control-group {
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            margin-bottom: 0;
-            flex-shrink: 0;
-            flex: 1;
-        }
-
-        .field-block {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .field-block label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
-        .input-wrapper {
-            display: flex;
             gap: 8px;
-        }
-
-        select, input[type="datetime-local"] {
             width: 100%;
-            padding: 10px 14px;
-            font-size: 14px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            font-family: inherit;
-            box-sizing: border-box;
-            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
-        select:focus, input[type="datetime-local"]:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        .control-label {
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
         }
 
         button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            background-color: var(--accent-primary);
-            color: white;
-            border: none;
-            padding: 10px 16px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: background-color 0.15s ease, transform 0.1s ease;
+            box-shadow: var(--shadow-sm);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         button:hover {
-            background-color: var(--accent-primary-hover);
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
         }
 
         button:active {
-            transform: scale(0.98);
+            transform: translateY(0);
         }
 
         button:disabled {
@@ -319,60 +281,125 @@
             color: var(--text-muted) !important;
             cursor: not-allowed;
             transform: none !important;
+            box-shadow: none;
         }
 
-        .btn-block { width: 100%; }
-        .btn-reset { background-color: transparent; border: 1px solid var(--border-color); color: var(--text-main); padding: 10px; }
-        .btn-reset:hover { background-color: var(--bg-main); }
-        .btn-random { background-color: var(--accent-purple); }
-        .btn-random:hover { background-color: var(--accent-purple-hover); }
-        .btn-compare { background-color: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
-        .btn-compare:hover { background-color: var(--bg-main); }
-        .btn-compare.active { background-color: var(--accent-danger); color: white; border-color: transparent; }
-        .btn-compare.active:hover { background-color: var(--accent-danger-hover); }
-        .btn-apply-disk { background-color: var(--accent-success); }
-        .btn-apply-disk:hover { background-color: var(--accent-success-hover); }
-        .btn-viewer-mode { background-color: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
-        .btn-viewer-mode:hover { background-color: var(--bg-main); }
-
-        /* Reset App Button Theme Design */
-        .btn-app-reset { background-color: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
-        .btn-app-reset:hover { background-color: rgba(239, 68, 68, 0.08); border-color: var(--accent-danger); color: var(--accent-danger); }
-
-        #selected-folder-label {
-            font-size: 13px;
-            color: var(--text-muted);
-            background-color: var(--bg-main);
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px dashed var(--border-color);
-            margin-bottom: 16px;
-            word-break: break-all;
+        .btn-reset {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0 12px;
+            box-shadow: none;
+            width: auto;
             flex-shrink: 0;
         }
+        .btn-reset:hover {
+            background-color: var(--track-header);
+        }
 
-        .console-container {
-            background-color: var(--console-bg);
-            color: var(--console-text);
-            font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
-            font-size: 12px;
-            padding: 12px;
-            border-radius: 8px;
-            flex: 1; 
-            overflow-y: auto; 
-            white-space: pre-wrap;
-            line-height: 1.6;
+        .time-picker-wrapper {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+            align-items: stretch;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            background: var(--track-header);
+            padding: 8px 12px;
+            border-radius: 6px;
             border: 1px solid var(--border-color);
+            font-size: 12px;
+            margin-top: 2px;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 38px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--border-color);
+            transition: .3s;
+            border-radius: 20px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: var(--accent-green);
+        }
+        input:checked + .slider:before {
+            transform: translateX(18px);
+        }
+
+        select, input[type="datetime-local"], input[type="text"].micro-input {
+            padding: 9px 12px;
+            font-size: 13px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            font-family: inherit;
+            transition: all 0.2s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        select:focus, input[type="datetime-local"]:focus, input[type="text"].micro-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        input[type="text"].micro-input.invalid-field {
+            border-color: var(--danger) !important;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+        }
+
+        #selected-folder-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 0;
         }
 
         #folder-container {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
             position: relative;
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
-            flex: 1;
-            overflow: hidden; 
+            min-height: 250px;
         }
-
+        
         .progress-wrapper {
             display: none;
             background-color: var(--border-color);
@@ -381,12 +408,10 @@
             position: absolute;
             top: 0;
             left: 0;
-            z-index: 20;
-            border-radius: 12px 12px 0 0;
-            overflow: hidden;
+            z-index: 10;
         }
         .progress-bar {
-            background-color: var(--accent-primary);
+            background-color: var(--primary);
             width: 0%;
             height: 100%;
             transition: width 0.1s linear;
@@ -394,85 +419,80 @@
 
         .grid-row {
             display: grid;
-            grid-template-columns: 2.2fr 1fr 1.5fr 1.5fr;
+            grid-template-columns: 2.2fr 1fr 1.6fr 1.6fr;
             gap: 16px;
             align-items: center;
-            padding: 12px 20px;
         }
 
         #list-header {
-            background-color: var(--bg-main);
+            background-color: var(--track-header);
+            padding: 12px 24px;
             border-bottom: 1px solid var(--border-color);
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
             color: var(--text-muted);
             letter-spacing: 0.05em;
-            flex-shrink: 0; 
         }
 
         #folder-structure {
-            overflow-y: auto; 
-            flex: 1;
-            padding-right: 4px; 
+            overflow-y: auto;
+            flex-grow: 1;
+            padding: 8px 0;
         }
 
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        
         .track-group {
             margin-bottom: 16px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background-color: var(--bg-card);
-            overflow: hidden;
         }
-
         .track-header-row {
-            background-color: var(--bg-main);
-            padding: 10px 20px;
+            background-color: var(--track-header);
+            padding: 8px 24px;
             font-size: 12px;
             font-weight: 700;
-            color: var(--accent-primary);
+            color: var(--track-text);
+            letter-spacing: 0.02em;
+            border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
-        }
-
-        ul.track-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
         }
 
         li.data-row {
-            font-size: 13px;
-            border-bottom: 1px solid var(--border-color);
+            padding: 10px 24px;
+            color: var(--text-main);
+            font-size: 14px;
             transition: background-color 0.2s ease;
-        }
-        li.data-row:last-child {
-            border-bottom: none;
+            border-bottom: 1px solid var(--border-color);
         }
         li.data-row:hover {
-            background-color: var(--bg-main);
+            background-color: var(--track-header);
         }
 
         .shuffling-row {
-            background-color: rgba(139, 92, 246, 0.05) !important;
+            background-color: rgba(124, 58, 237, 0.05) !important;
+            color: var(--accent-purple);
         }
-
+        
         .name-container {
             display: flex;
             flex-direction: column;
+            justify-content: center;
             overflow: hidden;
         }
-
         .folder-name {
-            font-weight: 600;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            font-weight: 500;
         }
-
         .history-name {
             display: none;
-            color: var(--accent-danger);
-            font-size: 11px;
+            color: var(--danger);
+            font-size: 12px;
             margin-top: 2px;
             white-space: nowrap;
             overflow: hidden;
@@ -485,243 +505,345 @@
         .duration-badge {
             font-size: 12px;
             font-weight: 600;
-            background-color: var(--border-color);
+            background-color: var(--track-header);
             color: var(--text-main);
-            padding: 4px 8px;
-            border-radius: 6px;
+            padding: 3px 10px;
+            border-radius: 20px;
             width: fit-content;
             font-variant-numeric: tabular-nums;
+            border: 1px solid var(--border-color);
         }
-
         .meta-value {
-            font-family: SFMono-Regular, Consolas, monospace;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
             font-size: 12px;
-            color: var(--text-muted);
+            color: var(--text-main);
         }
-
         .no-data {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-muted);
             font-style: italic;
         }
-
+        
         .shuffling-text {
             color: var(--accent-purple);
             font-style: italic;
             animation: pulse 1s infinite alternate;
         }
         @keyframes pulse {
-            from { opacity: 0.5; }
+            from { opacity: 0.6; }
             to { opacity: 1; }
         }
 
-        .error { color: var(--accent-danger); padding: 24px; font-weight: 600; text-align: center; font-size: 14px; }
-        .empty-msg { color: var(--text-muted); padding: 48px 24px; text-align: center; font-style: italic; font-size: 14px; }
+        .error {
+            color: var(--danger);
+            padding: 16px 24px;
+            font-weight: 600;
+            margin: 0;
+            font-size: 14px;
+        }
+        .empty-msg {
+            color: var(--text-muted);
+            font-style: italic;
+            padding: 24px;
+            margin: 0;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .btn-random {
+            background-color: var(--accent-purple);
+        }
+        .btn-random:hover {
+            background-color: var(--accent-purple-hover);
+        }
+        .btn-compare {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            box-shadow: none;
+        }
+        .btn-compare:hover {
+            background-color: var(--track-header);
+        }
+        .btn-compare.active {
+            background-color: var(--danger);
+            color: white;
+            border-color: transparent;
+        }
+        .btn-compare.active:hover {
+            background-color: var(--danger-hover);
+        }
+        .btn-apply-disk {
+            background-color: var(--accent-green);
+        }
+        .btn-apply-disk:hover {
+            background-color: var(--accent-green-hover);
+        }
+        
+        .btn-app-reset {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            box-shadow: none;
+        }
+        .btn-app-reset:hover {
+            background-color: var(--track-header);
+            color: var(--danger);
+            border-color: var(--danger);
+        }
 
-        .bottom-controls {
-            margin-top: 0; 
+        .btn-viewer-toggle {
+            background-color: var(--accent-orange);
+            margin-top: auto;
+        }
+        .btn-viewer-toggle:hover {
+            background-color: var(--accent-orange-hover);
+        }
+        .btn-viewer-toggle.viewer-active {
+            background-color: var(--primary);
+        }
+        .btn-viewer-toggle.viewer-active:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .console-header-label {
+            margin-top: 20px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+        .console-container {
+            margin-top: 6px;
+            background-color: var(--console-bg);
+            border-radius: var(--radius);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 12px;
+            color: var(--console-text);
+            padding: 14px 18px;
+            height: 150px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            box-shadow: var(--shadow-md);
+            line-height: 1.5;
+            flex-shrink: 0;
+        }
+        .console-container .line-divider {
+            color: #334155;
+            margin: 4px 0;
+            user-select: none;
+        }
+
+        .main-header-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-            flex-shrink: 0;
+            margin-bottom: 8px;
+            width: 100%;
         }
-        .left-buttons { display: flex; gap: 12px; align-items: center; }
 
         .dark-toggle {
-            background: transparent;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
             border: 1px solid var(--border-color);
+            cursor: pointer;
+            background: var(--bg-main);
             color: var(--text-main);
-            width: 34px;
-            height: 34px;
-            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
             padding: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+            flex-shrink: 0;
         }
-        .dark-toggle:hover { background-color: var(--bg-main); }
-
-        body.viewer-mode-active .brand h1 {
-            visibility: hidden;
-            position: relative;
-        }
-        body.viewer-mode-active .brand h1::after {
-            content: "Session Folder Viewer";
-            visibility: visible;
-            position: absolute;
-            left: 0;
-            top: 0;
-            white-space: nowrap;
-        }
-        body.viewer-mode-active .brand p,
-        body.viewer-mode-active .control-group hr,
-        body.viewer-mode-active .control-group .field-block:nth-child(4), 
-        body.viewer-mode-active #localTimeBtn,
-        body.viewer-mode-active #appResetBtn,
-        body.viewer-mode-active #applyDiskBtn,
-        body.viewer-mode-active #randomizeBtn,
-        body.viewer-mode-active #compareBtn,
-        body.viewer-mode-active #timePicker,
-        body.viewer-mode-active #resetTimeBtn,
-        body.viewer-mode-active #timepickerlabel,
-        body.viewer-mode-active .log-panel {
-            display: none !important;
+        .dark-toggle:hover {
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
 
-    <div id="login-gate">
+    <div id="auth-overlay">
         <div class="login-card">
-            <h2>ChronoVault Secure Access</h2>
-            <p>Please log in to initialize the workspace dashboard environments.</p>
-            
-            <div class="login-error" id="loginError">Invalid security key string credentials.</div>
-            
-            <div class="login-field">
-                <label for="vaultPassword">Security Access Key</label>
-                <input type="password" id="vaultPassword" placeholder="••••••••" autocomplete="current-password">
+            <h2>ChronoVault Access</h2>
+            <p>Security validation layer requested.</p>
+            <div class="login-input-group">
+                <span class="control-label">Security Token</span>
+                <input type="password" id="app-password-field" placeholder="Enter System Password" autocomplete="off">
             </div>
-            
-            <button id="loginBtn" class="btn-block">Initialize Engine Pipeline</button>
+            <div id="login-error-msg"></div>
+            <button id="btn-submit-login">Authenticate Key</button>
         </div>
     </div>
 
-    <div class="dashboard-container" id="mainDashboardApp" style="display: none;">
-        <div class="workspace-grid">
-            <div class="panel" style="justify-content: space-between;">
-                <div>
-                    <div class="brand">
-                        <h1>ChronoVault Workspace</h1>
-                        <p>Chronological sequence optimization engine for directory architecture arrays.</p>
-                        <button id="darkModeToggle" class="dark-toggle" title="Toggle dark mode">🌙</button>
-                    </div>
+    <div id="log-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); z-index: 100000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+        <div class="log-modal-card" style="background: var(--bg-card); width: 97%; max-width: 1400px; height: 70vh; border-radius: var(--radius); display: flex; flex-direction: column; box-shadow: var(--shadow-md); border: 1px solid var(--border-color);">
+            <div style="padding: 16px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0; font-size: 16px;">Log File Contents</h3>
+                <button id="btn-close-modal" style="background: transparent; color: var(--text-main); border: none; font-size: 16px; cursor: pointer; width: auto; box-shadow: none; padding: 4px 8px;">✖</button>
+            </div>
+            <div style="flex-grow: 1; padding: 16px; overflow-y: auto;">
+                <pre id="log-modal-content" style="margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12px; color: var(--text-main); white-space: pre-wrap; word-wrap: break-word;"></pre>
+            </div>
+        </div>
+    </div>
 
-                    <div class="panel-title">⚙️ Control Pipeline</div>
-                    
-                    <div class="control-group">
-                        <div class="field-block">
-                            <button id="btn-select" class="btn-block">Mount Workspace Root</button>
-                        </div>
+    <div class="sidebar" id="app-sidebar">
+        <div>
+            <h1 id="engine-title">ChronoVault Engine</h1>
+            <p class="subtitle" id="engine-subtitle">Chronological sequence optimization engine for directory architecture arrays.</p>
+        </div>
 
-                        <div class="field-block" id="parent-picker-group" style="display: none;">
-                            <label for="parentFolderDropdown">Target Sequence Folder</label>
-                            <select id="parentFolderDropdown">
-                                <option value="">-- Awaiting Selection --</option>
-                            </select>
-                        </div>
+        <div class="control-group">
+            <span class="control-label">Workspace Folder</span>
+            <button id="btn-select">Select Workspace Root</button>
+        </div>
+        
+        <div class="control-group" id="parent-picker-group" style="display: none;">
+            <span class="control-label">Target Sequence Folder</span>
+            <select id="parentFolderDropdown">
+                <option value="">-- Awaiting Selection --</option>
+            </select>
+        </div>
 
-                        <div class="field-block">
-                            <label for="timePicker" id="timepickerlabel">Baseline Chronology Sync</label>
-                            <div class="input-wrapper">
-                                <input type="datetime-local" id="timePicker" step="1">
-                                <button id="resetTimeBtn" class="btn-reset" title="Reset to Live Local Time">❌</button>
-                            </div>
-                        </div>
-
-                        <button id="localTimeBtn" class="btn-block" disabled>Apply Selected Time</button>
-                    </div>
-                </div>
-
-                <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
-                    <button id="appResetBtn" class="btn-app-reset btn-block">🔄 Reset App State</button>
-                    <button id="viewerModeBtn" class="btn-viewer-mode btn-block">👁️ Switch to Viewer Mode</button>
-                    <button id="applyDiskBtn" class="btn-apply-disk btn-block" disabled>💾 Apply Changes</button>
+        <div class="control-group" id="chrono-config-group">
+            <span class="control-label">Chronological Configuration</span>
+            <div class="time-picker-wrapper">
+                <input type="datetime-local" id="timePicker" step="1">
+                <button id="resetTimeBtn" class="btn-reset" title="Reset to Live Local Time">❌</button>
+            </div>
+            
+            <div class="time-picker-wrapper" style="margin-top: 4px;">
+                <input type="text" id="customUsInput" class="micro-input" placeholder="Microseconds (6 digits)" maxlength="6" disabled>
+                <div class="toggle-container" style="margin-top: 0; width: auto; flex-shrink: 0;">
+                    <span style="font-weight: 600; opacity: 0.8;">TST MS</span>
+                    <label class="switch">
+                        <input type="checkbox" id="customUsToggle">
+                        <span class="slider"></span>
+                    </label>
                 </div>
             </div>
 
-            <div class="panel" style="padding:0;">
-                <div style="padding: 20px 20px 4px 20px; flex-shrink:0;">
-                    <div class="panel-title">📂 Active Deployment Sequence Space</div>
-                    <div id="selected-folder-label">No active directory context configuration targeted.</div>
-                </div>
+            <button id="localTimeBtn" disabled style="margin-top: 4px;">Apply Selected Time</button>
+        </div>
 
-                <div id="folder-container">
-                    <div class="progress-wrapper" id="progressBarWrapper">
-                        <div class="progress-bar" id="progressBar"></div>
-                    </div>
+        <div class="control-group" id="sequencing-matrix-group">
+            <span class="control-label">Structural Sequencing Matrix</span>
+            <button id="randomizeBtn" class="btn-random" disabled>🎲 Randomize</button>
+            <button id="reindexBtn" class="btn-random" disabled>♻️ Reindex</button>
+            <button id="compareBtn" class="btn-compare" disabled>👁️ Compare</button>
+             
+            <hr style="border:0; border-top:1px solid var(--border-color); margin: 8px 0;" />
+            
+            <span class="control-label">Apply Pipeline</span>
+            <button id="applyDiskBtn" class="btn-apply-disk" disabled>💾 Apply Changes</button>
+        </div>
 
-                    <div id="list-header" class="grid-row" style="display: none;">
-                        <span>Sequence Name Structure</span>
-                        <span>Duration</span>
-                        <span>SST (Session Start - LA)</span>
-                        <span>TST (Trajectory Start - LA)</span>
-                    </div>
-                    
-                    <div id="folder-structure">
-                        <p class="empty-msg">No workspace directory context targeted yet.</p>
-                    </div>
-                </div>
+        <button id="resetAppStateBtn" class="btn-app-reset" style="margin-top: auto; margin-bottom: -30px;">🔄 Reset App State</button>
+        <button id="viewerModeToggleBtn" class="btn-viewer-toggle" style="margin-top: 20px;">👁️ Switch to Viewer Mode</button>        
+    </div>
+    
+    <div class="sidebar-toggle-tab" id="btn-sidebar-toggle" title="Toggle Configuration Sidebar">◀</div>
 
-                <div class="bottom-controls" style="padding: 16px 20px; border-top: 1px solid var(--border-color); background-color: var(--bg-main); border-radius: 0 0 12px 12px;">
-                    <div class="left-buttons">
-                        <button id="randomizeBtn" class="btn-random" disabled>🎲 Randomize</button>
-                        <button id="compareBtn" class="btn-compare" disabled>👁️ Compare</button>
-                        <span id="total-duration-label" style="margin-left: 8px; font-weight: 700; font-size: 13px; color: var(--text-main); opacity: 0.8;">Total Duration: --:--</span>
-                    </div>
-                </div>
+    <div class="main-content" id="app-main-content">
+        <div class="main-header-row">
+            <div id="selected-folder-label">No active target sequence workspace initialization selection.</div>
+            <button id="darkModeToggle" class="dark-toggle" title="Toggle dark mode">🌙</button>
+        </div>
+
+        <div id="folder-container">
+            <div class="progress-wrapper" id="progressBarWrapper">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <div id="list-header" class="grid-row" style="display: none;">
+                <span>Name</span>
+                <span>Duration</span>
+                <span>SST (Session Start - LA)</span>
+                <span>TST (Trajectory Start - LA)</span>
+            </div>
+            
+            <div id="folder-structure">
+                <p class="empty-msg">Select a container directory workspace environment on the sidebar to get started.</p>
             </div>
         </div>
 
-        <div class="log-panel">
-            <div class="panel-title">📝 Live Execution Log</div>
-            <div id="logConsole" class="console-container">System idle. Awaiting directory target configuration sequence...</div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 13px;">
+            <span id="total-duration-label" style="font-weight: 700; opacity: 0.85;">Total Duration: --:--</span>
+            <div style="display: flex; gap: 8px;">
+                <button id="btn-view-logs" style="width: auto; padding: 6px 14px; background-color: transparent; border: 1px solid var(--border-color); color: var(--text-main); box-shadow: none;" disabled>📋 View Logs</button>
+                <button id="btn-generate-logs" style="width: auto; padding: 6px 14px; background-color: var(--accent-purple);" disabled>⚡ Generate Logs</button>
+            </div>
         </div>
+
+        <div class="console-header-label" id="console-label">Execution Live Log</div>
+        <div id="logConsole" class="console-container">System idle. Awaiting directory target configuration sequence...</div>
     </div>
 
     <script>
-        // ==========================================
-        // SECURITY GATEWAY ENGINE LOGIC
-        // ==========================================
-        const loginGate = document.getElementById('login-gate');
-        const loginBtn = document.getElementById('loginBtn');
-        const vaultPassword = document.getElementById('vaultPassword');
-        const loginError = document.getElementById('loginError');
-        const mainDashboardApp = document.getElementById('mainDashboardApp');
+        (function() {
+            // Block right-click context menu
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            }, false);
 
-        const VAULT_ACCESS_SECRET = "kaspersky"; 
+            // Block DevTools shortcuts (F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U)
+            document.addEventListener('keydown', function(e) {
+                if (
+                    e.key === 'F12' || 
+                    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i')) || 
+                    (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j')) || 
+                    (e.ctrlKey && (e.key === 'U' || e.key === 'u'))
+                ) {
+                    e.preventDefault();
+                    return false;
+                }
+            }, false);
 
-        function attemptLogin() {
-            if (vaultPassword.value === VAULT_ACCESS_SECRET) {
-                securityObserver.disconnect();
-                
-                loginGate.style.opacity = '0';
-                setTimeout(() => {
-                    loginGate.remove();
-                    mainDashboardApp.style.display = 'flex';
-                    logToConsole("🔑 Security Access Validated. UI Session Architecture unlocked.");
-                }, 400);
-            } else {
-                loginError.style.display = 'block';
-                vaultPassword.value = '';
-                vaultPassword.focus();
+            // Authentication processing
+            const allowedPasswords = ["kaspersky", "jregala22", "seanpu"];
+            const overlay = document.getElementById('auth-overlay');
+            const passInput = document.getElementById('app-password-field');
+            const submitBtn = document.getElementById('btn-submit-login');
+            const errorMsg = document.getElementById('login-error-msg');
+
+            function verifyKey() {
+                if (allowedPasswords.includes(passInput.value)) {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.style.visibility = 'hidden';
+                    }, 400);
+                } else {
+                    errorMsg.textContent = "Invalid authorization signature key.";
+                    passInput.value = "";
+                    passInput.focus();
+                }
             }
-        }
 
-        loginBtn.addEventListener('click', attemptLogin);
-        vaultPassword.addEventListener('keydown', (e) => { if(e.key === 'Enter') attemptLogin(); });
-
-        const securityObserver = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                const targetDropped = !document.body.contains(loginGate);
-                const layoutAltered = loginGate.style.display === 'none' || loginGate.style.visibility === 'hidden' || parseInt(loginGate.style.zIndex) < 9999;
-                
-                if (targetDropped || layoutAltered) {
-                    mainDashboardApp.innerHTML = ""; 
-                    mainDashboardApp.remove();
-                    document.body.innerHTML = "<div style='color:red; font-family:monospace; padding:40px; text-align:center; font-weight:bold; font-size:18px;'>🚨 SECURITY TAMPER DISCOVERED. CORE RUNTIME TERMINATED.</div>";
-                    securityObserver.disconnect();
+            submitBtn.addEventListener('click', verifyKey);
+            passInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    verifyKey();
                 }
             });
-        });
 
-        securityObserver.observe(document.body, { attributes: true, childList: true, subtree: true });
+            // Sidebar Collapse Toggle Action Handler Fixed Loop Insertion
+            const sidebar = document.getElementById('app-sidebar');
+            const toggleTab = document.getElementById('btn-sidebar-toggle');
+            
+            toggleTab.addEventListener('click', function() {
+                const isCollapsed = sidebar.classList.toggle('collapsed');
+                toggleTab.textContent = isCollapsed ? '▶' : '◀';
+            });
+        })();
+    </script>
 
-        // ==========================================
-        // ORIGINAL APPLICATION ENGINE CODES
-        // ==========================================
+    <script>
         const selectBtn = document.getElementById('btn-select');
         const parentPickerGroup = document.getElementById('parent-picker-group');
         const parentFolderDropdown = document.getElementById('parentFolderDropdown');
@@ -733,13 +855,26 @@
         const timePicker = document.getElementById('timePicker');
         const resetTimeBtn = document.getElementById('resetTimeBtn');
         const randomizeBtn = document.getElementById('randomizeBtn');
+        const reindexBtn = document.getElementById('reindexBtn');
         const compareBtn = document.getElementById('compareBtn');
         const applyDiskBtn = document.getElementById('applyDiskBtn');
+        const resetAppStateBtn = document.getElementById('resetAppStateBtn');
         const totalDurationLabel = document.getElementById('total-duration-label');
         const progressBarWrapper = document.getElementById('progressBarWrapper');
         const progressBar = document.getElementById('progressBar');
         const logConsole = document.getElementById('logConsole');
-        const appResetBtn = document.getElementById('appResetBtn');
+
+        const customUsInput = document.getElementById('customUsInput');
+        const customUsToggle = document.getElementById('customUsToggle');
+
+        const viewerModeToggleBtn = document.getElementById('viewerModeToggleBtn');
+        const viewLogsBtn = document.getElementById('btn-view-logs');
+        const generateLogsBtn = document.getElementById('btn-generate-logs');
+        const engineTitle = document.getElementById('engine-title');
+        const engineSubtitle = document.getElementById('engine-subtitle');
+        const chronoConfigGroup = document.getElementById('chrono-config-group');
+        const sequencingMatrixGroup = document.getElementById('sequencing-matrix-group');
+        const consoleLabel = document.getElementById('console-label');
 
         let rootWorkspaceHandle = null; 
         let mainDirectoryHandle = null;  
@@ -747,13 +882,310 @@
         let liveClockInterval = null;
         let isUserEditing = false;
         let historyViewActive = false;
+        let isViewerModeActive = false;
 
         let trackPaths = []; 
         let isFlatStructure = false; 
+
+        let isCustomTimeApplied = false;
+
         let computedTrackParentMapping = {};
 
+        function validateMicrosecondsInput() {
+            if (!customUsToggle.checked) {
+                customUsInput.classList.remove('invalid-field');
+                if (mainDirectoryHandle) {
+                    localTimeBtn.disabled = false;
+                    randomizeBtn.disabled = false;
+                }
+                return true;
+            }
+            const val = customUsInput.value;
+            const isValid = /^\d{6}$/.test(val);
+            if (isValid) {
+                customUsInput.classList.remove('invalid-field');
+                if (mainDirectoryHandle) {
+                    localTimeBtn.disabled = false;
+                    randomizeBtn.disabled = false;
+                }
+                return true;
+            } else {
+                customUsInput.classList.add('invalid-field');
+                localTimeBtn.disabled = true;
+                randomizeBtn.disabled = true;
+                return false;
+            }
+        }
+
+        customUsToggle.addEventListener('change', () => {
+            customUsInput.disabled = !customUsToggle.checked;
+            if (customUsToggle.checked && !customUsInput.value) {
+                customUsInput.value = "000000";
+            }
+            validateMicrosecondsInput();
+        });
+
+        customUsInput.addEventListener('input', () => {
+            customUsInput.value = customUsInput.value.replace(/\D/g, '');
+            validateMicrosecondsInput();
+        });
+
+        resetAppStateBtn.addEventListener('click', () => {
+            rootWorkspaceHandle = null;
+            mainDirectoryHandle = null;
+            trackPaths = [];
+            isFlatStructure = false;
+
+            isCustomTimeApplied = false;
+
+            computedTrackParentMapping = {};
+            historyViewActive = false;
+            compareBtn.classList.remove('active');
+            
+            parentFolderDropdown.innerHTML = '<option value="">-- Awaiting Selection --</option>';
+            parentPickerGroup.style.display = 'none';
+            listHeader.style.display = 'none';
+            
+            customUsToggle.checked = false;
+            customUsInput.value = "";
+            customUsInput.disabled = true;
+            customUsInput.classList.remove('invalid-field');
+
+            localTimeBtn.disabled = true;
+            randomizeBtn.disabled = true;
+            compareBtn.disabled = true;
+            applyDiskBtn.disabled = true;
+            selectBtn.disabled = false;
+            parentFolderDropdown.disabled = false;
+            viewLogsBtn.disabled = true;
+            generateLogsBtn.disabled = true;
+            
+            folderLabel.textContent = "No active target sequence workspace initialization selection.";
+            outputDiv.innerHTML = '<p class="empty-msg">Select a container directory workspace environment on the sidebar to get started.</p>';
+            totalDurationLabel.textContent = "Total Duration: --:--";
+            progressBarWrapper.style.display = 'none';
+            progressBar.style.width = '0%';
+            
+            clearConsole();
+            logConsole.innerHTML = "System idle. Awaiting directory target configuration sequence...";
+            startLiveClock();
+        });
+
+        viewerModeToggleBtn.addEventListener('click', () => {
+            isViewerModeActive = !isViewerModeActive;
+            
+            if (isViewerModeActive) {
+                engineTitle.textContent = "Session Folder Viewer";
+                engineSubtitle.style.display = "none";
+                
+                chronoConfigGroup.style.display = "none";
+                sequencingMatrixGroup.style.display = "none";
+                applyDiskBtn.style.display = "none";
+                
+                consoleLabel.style.display = "none";
+                logConsole.style.display = "none";
+                
+                viewerModeToggleBtn.textContent = "⚙️ Switch to Engine Mode";
+                viewerModeToggleBtn.classList.add('viewer-active');
+                
+                viewerModeToggleBtn.style.marginBottom = "0";
+            } else {
+                engineTitle.textContent = "ChronoVault Engine";
+                engineSubtitle.style.display = "block";
+                
+                chronoConfigGroup.style.display = "flex";
+                sequencingMatrixGroup.style.display = "flex";
+                applyDiskBtn.style.display = "inline-flex";
+                
+                consoleLabel.style.display = "block";
+                logConsole.style.display = "block";
+                
+                viewerModeToggleBtn.textContent = "👁️ Switch to Viewer Mode";
+                viewerModeToggleBtn.classList.remove('viewer-active');
+                viewerModeToggleBtn.style.marginBottom = "";
+            }
+        });
+
+        // --- ⚡ GENERATE LOGS EVENT HANDLER ---
+        generateLogsBtn.addEventListener('click', async () => {
+            if (!rootWorkspaceHandle || !mainDirectoryHandle) {
+                alert("No workspace selected or target sequence folder initialized.");
+                return;
+            }
+
+            const dataRowsElements = outputDiv.querySelectorAll('li.data-row');
+            if (dataRowsElements.length === 0) {
+                alert("No sequence data items found on screen to generate logs.");
+                return;
+            }
+
+            // Convert to a real array so we can sort them strictly chronologically 
+            const sortedDataRows = Array.from(dataRowsElements).sort((rowA, rowB) => {
+                const tstAElement = rowA.querySelector('.tst-field');
+                const tstBElement = rowB.querySelector('.tst-field');
+                
+                const tstAStr = tstAElement ? tstAElement.textContent.trim() : "";
+                const tstBStr = tstBElement ? tstBElement.textContent.trim() : "";
+                
+                // Sort by string comparison (works perfectly because format is YYYY-MM-DD HH:MM:SS.mmm)
+                return tstAStr.localeCompare(tstBStr);
+            });
+
+            try {
+                // Determine target directory handles to write to
+                const targetLogsRepositories = [];
+
+                if (isFlatStructure) {
+                    const logsDirHandle = await mainDirectoryHandle.getDirectoryHandle('logs', { create: true });
+                    targetLogsRepositories.push({ 
+                        logsHandle: logsDirHandle, 
+                        folderContextName: parentFolderDropdown.value 
+                    });
+                } else {
+                    // Resolve paths for BOTH LI 1 and LI 2 log slots
+                    for (const pathMeta of trackPaths) {
+                        try {
+                            const parentTrackDir = await mainDirectoryHandle.getDirectoryHandle(pathMeta.trackLabel);
+                            const middleDirHandle = await parentTrackDir.getDirectoryHandle(pathMeta.subFolderName);
+                            const logsDirHandle = await middleDirHandle.getDirectoryHandle('logs', { create: true });
+
+                            if (!targetLogsRepositories.some(r => r.trackKey === pathMeta.trackLabel)) {
+                                targetLogsRepositories.push({ 
+                                    logsHandle: logsDirHandle, 
+                                    trackKey: pathMeta.trackLabel, 
+                                    folderContextName: pathMeta.subFolderName 
+                                });
+                            }
+                        } catch (e) {
+                            logToConsole(`⚠️ Could not initialize log folder inside track: ${pathMeta.trackLabel}`);
+                        }
+                    }
+                }
+
+                // STEP 1: Loop through UI data rows in strict chronological sequential order
+                let generatedTextBuffer = "";
+                const sessionFolderName = parentFolderDropdown.value;
+
+                sortedDataRows.forEach(row => {
+                    let episodeFolderName = row.dataset.diskOriginalName || "";
+                    
+                    // Strip track layers from path string context if nested folder layout
+                    if (episodeFolderName.includes('/')) {
+                        const parts = episodeFolderName.split('/');
+                        episodeFolderName = parts[parts.length - 1];
+                    }
+
+                    const rawSecondsStr = row.dataset.seconds || "0";
+                    const videoDurationSeconds = parseFloat(rawSecondsStr);
+                    const durationFloor = Math.floor(videoDurationSeconds);
+
+                    const tstElement = row.querySelector('.tst-field');
+                    if (!tstElement) return;
+
+                    const rawTstString = tstElement.textContent.trim();
+                    if (!rawTstString || rawTstString === 'Checking...') return;
+
+                    let baseMsInt = 0;
+                    if (rawTstString.includes('.')) {
+                        const decimals = rawTstString.split('.')[1];
+                        baseMsInt = parseInt(decimals.substring(0, 3).padEnd(3, '0'), 10);
+                    }
+
+                    let durationMsInt = 0;
+                    if (rawSecondsStr.includes('.')) {
+                        const durationDecimals = rawSecondsStr.split('.', 1)[0] === rawSecondsStr ? "" : rawSecondsStr.split('.')[1];
+                        if (durationDecimals === "1") durationMsInt = 71;
+                        else if (durationDecimals === "07") durationMsInt = 66;
+                        else if (durationDecimals === "03") durationMsInt = 15;
+                        else if (durationDecimals) {
+                            durationMsInt = parseInt(durationDecimals.substring(0, 3).padEnd(3, '0'), 10);
+                        }
+                    }
+
+                    let finalMsInt = baseMsInt + durationMsInt;
+                    let overflowSeconds = 0;
+                    if (finalMsInt >= 1000) {
+                        overflowSeconds = Math.floor(finalMsInt / 1000);
+                        finalMsInt = finalMsInt % 1000;
+                    }
+                    const outMillisecondsStr = String(finalMsInt).padStart(3, '0');
+
+                    const baseDateTimePart = rawTstString.split('.')[0];
+                    const isoParseableStr = baseDateTimePart.replace(' ', 'T');
+                    let targetDateObj = new Date(isoParseableStr);
+                    if (isNaN(targetDateObj.getTime())) return;
+
+                    targetDateObj.setSeconds(targetDateObj.getSeconds() + durationFloor + overflowSeconds);
+                    targetDateObj.setHours(targetDateObj.getHours() + 15);
+
+                    const outYear = targetDateObj.getFullYear();
+                    const outMonth = String(targetDateObj.getMonth() + 1).padStart(2, '0');
+                    const outDay = String(targetDateObj.getDate()).padStart(2, '0');
+                    const outHours = String(targetDateObj.getHours()).padStart(2, '0');
+                    const outMinutes = String(targetDateObj.getMinutes()).padStart(2, '0');
+                    const outSeconds = String(targetDateObj.getSeconds()).padStart(2, '0');
+
+                    const finalTimestamp = `${outYear}-${outMonth}-${outDay} ${outHours}:${outMinutes}:${outSeconds},${outMillisecondsStr}`;
+
+                    const line1 = `${finalTimestamp} - ERROR - All 3 attempts failed to sync outputs/${sessionFolderName}/${episodeFolderName} to Gear-Philippines/${episodeFolderName}\n`;
+                    const line2 = `${finalTimestamp} - ERROR - All 3 attempts failed to sync outputs/${sessionFolderName}/${episodeFolderName} to superannotatedemo/intake-folder/gear_robots/automatic_upload/${episodeFolderName}\n`;
+                    generatedTextBuffer += line1 + line2;
+                });
+
+                if (!generatedTextBuffer) {
+                    alert("Unable to generate logs. Please verify that row timestamps are properly initialized.");
+                    return;
+                }
+
+                // STEP 2: Write this complete interleaved copy to every resolved log location
+                for (const repository of targetLogsRepositories) {
+                    let dateSignature = "";
+                    const contextMatch = repository.folderContextName.match(/(\d{4}-\d{2}-\d{2})/);
+                    if (contextMatch) {
+                        dateSignature = contextMatch[1];
+                    } else {
+                        dateSignature = repository.folderContextName.substring(0, 10);
+                    }
+
+                    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateSignature)) {
+                        const todayObj = new Date();
+                        dateSignature = `${todayObj.getFullYear()}-${String(todayObj.getMonth() + 1).padStart(2, '0')}-${String(todayObj.getDate()).padStart(2, '0')}`;
+                    }
+
+                    let targetLogFileName = `${dateSignature}_automatic_upload.txt`;
+
+                    for await (const entry of repository.logsHandle.values()) {
+                        if (entry.kind === 'file' && entry.name.includes(dateSignature) && entry.name.includes('automatic_upload')) {
+                            targetLogFileName = entry.name;
+                            break;
+                        }
+                    }
+
+                    let existingContent = "";
+                    try {
+                        const existingFileHandle = await repository.logsHandle.getFileHandle(targetLogFileName);
+                        const fileObj = await existingFileHandle.getFile();
+                        existingContent = await fileObj.text();
+                    } catch (fileErr) {}
+
+                    const compiledPayload = existingContent ? (existingContent.endsWith('\n') ? existingContent : existingContent + '\n') + generatedTextBuffer : generatedTextBuffer;
+
+                    const activeLogFileHandle = await repository.logsHandle.getFileHandle(targetLogFileName, { create: true });
+                    const writerStream = await activeLogFileHandle.createWritable();
+                    await writerStream.write(compiledPayload);
+                    await writerStream.close();
+
+                    const displayPrefix = !isFlatStructure ? `${repository.trackKey}/${repository.folderContextName}/` : '';
+                    logToConsole(`📝 Audit session logs successfully appended to: /${parentFolderDropdown.value}/${displayPrefix}logs/${targetLogFileName}`);
+                }
+
+            } catch (err) {
+                logToConsole(`❌ Failed to write sequence log file to disk: ${err.message}`);
+                console.error(err);
+            }
+        });
+
         function logToConsole(message) {
-            if (!logConsole) return;
             if (logConsole.innerHTML === "System idle. Awaiting directory target configuration sequence...") {
                 logConsole.innerHTML = "";
             }
@@ -762,7 +1194,7 @@
         }
 
         function clearConsole() {
-            if (logConsole) logConsole.innerHTML = "";
+            logConsole.innerHTML = "";
         }
 
         function getFormattedLocalTime(dateObj) {
@@ -800,7 +1232,7 @@
                 rootWorkspaceHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
                 
                 parentFolderDropdown.innerHTML = '<option value="">-- Choose Target Sequence Folder --</option>';
-                parentPickerGroup.style.display = 'flex'; 
+                parentPickerGroup.style.display = 'none';
                 
                 let foundCandidateFolders = [];
 
@@ -825,7 +1257,7 @@
                 });
 
                 parentPickerGroup.style.display = 'flex';
-                folderLabel.textContent = `Root Environment: ${rootWorkspaceHandle.name}. Select a sequence target folder step next.`;
+                folderLabel.textContent = "Root Environment: " + rootWorkspaceHandle.name + ". Select a sequence target folder step next.";
                 
                 outputDiv.innerHTML = '<p class="empty-msg">Awaiting active target sequence workspace initialization selection...</p>';
                 listHeader.style.display = 'none';
@@ -833,14 +1265,15 @@
                 randomizeBtn.disabled = true;
                 compareBtn.disabled = true;
                 applyDiskBtn.disabled = true;
+                reindexBtn.disabled = true;
 
                 clearConsole();
-                logToConsole(`📥 Broad root directory assigned: [${rootWorkspaceHandle.name}]. Dropdown directory list refreshed.`);
+                logToConsole("📥 Broad root directory assigned: [" + rootWorkspaceHandle.name + "]. Dropdown directory list refreshed.");
 
             } catch (err) {
                 listHeader.style.display = 'none';
                 if (err.name !== 'AbortError') {
-                    outputDiv.innerHTML = `<p class="error">Error initializing workspace target layout: ${err.message}</p>`;
+                    outputDiv.innerHTML = '<p class="error">Error initializing workspace target layout: ' + err.message + '</p>';
                     console.error(err);
                 }
             }
@@ -849,11 +1282,14 @@
         parentFolderDropdown.addEventListener('change', async () => {
             const chosenFolderContext = parentFolderDropdown.value;
             if (!chosenFolderContext || !rootWorkspaceHandle) {
-                outputDiv.innerHTML = '<p class="empty-msg">No active directory context configuration targeted.</p>';
+                outputDiv.innerHTML = '<p class="empty-msg">Awaiting active target sequence workspace initialization selection...</p>';
                 localTimeBtn.disabled = true;
                 randomizeBtn.disabled = true;
                 compareBtn.disabled = true;
                 applyDiskBtn.disabled = true;
+                reindexBtn.disabled = true;
+                viewLogsBtn.disabled = true;
+                generateLogsBtn.disabled = true;
                 return;
             }
 
@@ -886,7 +1322,7 @@
                         trackHandle: null,
                         subTrackHandle: null
                     });
-                    folderLabel.textContent = `Context Target: ${mainDirectoryHandle.name} (Flat Layout inside ${rootWorkspaceHandle.name})`;
+                    folderLabel.textContent = "Context Target: " + mainDirectoryHandle.name;
                 } else {
                     for await (const entry of mainDirectoryHandle.values()) {
                         if (entry.kind === 'directory' && (entry.name.toUpperCase().startsWith('LI ') || entry.name.toUpperCase().startsWith('LI-'))) {
@@ -906,10 +1342,10 @@
                     trackPaths.sort((a, b) => a.trackLabel.localeCompare(b.trackLabel, undefined, { numeric: true }));
 
                     if (trackPaths.length > 0) {
-                        const labels = trackPaths.map(t => `${t.trackLabel}\\${t.subFolderName}`);
-                        folderLabel.textContent = `Context Target: ${mainDirectoryHandle.name} (${labels.join(' | ')}) (Nested Layout inside ${rootWorkspaceHandle.name})`;
+                        const labels = trackPaths.map(t => t.trackLabel + "\\" + t.subFolderName);
+                        folderLabel.textContent = "Context Target: " + mainDirectoryHandle.name + " (" + labels.join(' / ') + ")";
                     } else {
-                        folderLabel.textContent = `Context Target: ${mainDirectoryHandle.name} (Nested Layout inside ${rootWorkspaceHandle.name})`;
+                        folderLabel.textContent = "Context Target: " + mainDirectoryHandle.name;
                     }
                 }
 
@@ -918,20 +1354,23 @@
                 compareBtn.disabled = true;
                 applyDiskBtn.disabled = true;
                 randomizeBtn.disabled = true;
-                localTimeBtn.disabled = false;
+                viewLogsBtn.disabled = true;
+                generateLogsBtn.disabled = true;
+                
+                validateMicrosecondsInput();
                 compareBtn.classList.remove('active');
                 historyViewActive = false;
                 
                 clearConsole();
-                logToConsole(`📂 Targeted context sequence: ${rootWorkspaceHandle.name} ➔ ${mainDirectoryHandle.name}`);
+                logToConsole("📂 Targeted context sequence: " + rootWorkspaceHandle.name + " ➔ " + mainDirectoryHandle.name);
                 totalDurationLabel.textContent = "Total Duration: Tracking...";
                 
                 await refreshUIList();
 
             } catch (err) {
                 listHeader.style.display = 'none';
-                outputDiv.innerHTML = `<p class="error">Error parsing chosen subdirectory structure: ${err.message}</p>`;
-                logToConsole(`❌ Error targeting nested elements: ${err.message}`);
+                outputDiv.innerHTML = '<p class="error">Error parsing chosen subdirectory structure: ' + err.message + '</p>';
+                logToConsole("❌ Error targeting nested elements: " + err.message);
                 console.error(err);
             }
         });
@@ -956,8 +1395,8 @@
                 const headerDiv = document.createElement('div');
                 headerDiv.className = 'track-header-row';
                 headerDiv.textContent = isFlatStructure 
-                    ? `⚡ SEQUENCE ITEM LIST` 
-                    : `⚡ TRACK GROUP: ${pathMeta.trackLabel}\\${pathMeta.subFolderName}`;
+                    ? "⚡ SEQUENCE ITEM LIST" 
+                    : "⚡ TRACK GROUP: " + pathMeta.trackLabel + "\\" + pathMeta.subFolderName;
                 groupDiv.appendChild(headerDiv);
 
                 const ulList = document.createElement('ul');
@@ -974,7 +1413,7 @@
                     
                     await loadSequenceFolders(targetDirHandle, ulList, pathMeta.trackLabel, pathMeta.subFolderName);
                 } catch (err) {
-                    logToConsole(`⚠️ Error accessing sequence layout: ${err.message}`);
+                    logToConsole("⚠️ Error accessing sequence layout: " + err.message);
                 }
 
                 groupDiv.appendChild(ulList);
@@ -991,7 +1430,11 @@
             listHeader.style.display = 'grid';
             applyDiskBtn.disabled = false;
             compareBtn.disabled = false;
-            randomizeBtn.disabled = false;
+            viewLogsBtn.disabled = false;
+            generateLogsBtn.disabled = false;
+            reindexBtn.disabled = false;
+            
+            validateMicrosecondsInput();
 
             setTimeout(() => {
                 let grandTotalSeconds = 0;
@@ -1005,13 +1448,14 @@
                 const secs = Math.floor(grandTotalSeconds % 60);
                 const pureMinutes = (grandTotalSeconds / 60).toFixed(2);
 
-                totalDurationLabel.textContent = `Total Duration: ${hrs}h ${mins}m ${secs}s (${pureMinutes} mins)`;
+                totalDurationLabel.textContent = "Total Duration: " + hrs + "h " + mins + "m " + secs + "s (" + pureMinutes + " mins)";
             }, 1200); 
         }
 
         async function loadSequenceFolders(dirHandle, parentElement, trackLabel, subFolderName) {
             const entries = [];
             for await (const entry of dirHandle.values()) {
+                if (entry.kind === 'file') continue;
                 if (entry.kind === 'directory' && entry.name.toLowerCase() !== 'log' && entry.name.toLowerCase() !== 'logs') {
                     entries.push(entry);
                 }
@@ -1061,7 +1505,7 @@
                         let runningSum = 0;
                         document.querySelectorAll('.data-row').forEach(r => runningSum += parseFloat(r.dataset.seconds || 0));
                         const pureMins = (runningSum / 60).toFixed(2);
-                        totalDurationLabel.textContent = `Total Duration: ${Math.floor(runningSum/3600)}h ${Math.floor((runningSum%3600)/60)}m ${Math.floor(runningSum%60)}s (${pureMins} mins)`;
+                        totalDurationLabel.textContent = "Total Duration: " + Math.floor(runningSum/3600) + "h " + Math.floor((runningSum%3600)/60) + "m " + Math.floor(runningSum%60) + "s (" + pureMins + " mins)";
                     } else {
                         durationSpan.className = 'no-data';
                         durationSpan.textContent = 'no mp4 files';
@@ -1087,14 +1531,19 @@
         }
 
         localTimeBtn.addEventListener('click', () => {
+            if (customUsToggle.checked && !validateMicrosecondsInput()) {
+                alert("Please provide a valid 6-digit microsecond value first.");
+                return;
+            }
+
             const allRows = Array.from(document.querySelectorAll('.data-row'));
             if (allRows.length === 0) return;
 
             allRows.sort((a, b) => {
                 const nameA = a.querySelector('.folder-name').textContent.trim();
                 const nameB = b.querySelector('.folder-name').textContent.trim();
-                const numA = parseInt(nameA.match(/[-](\d+)$/)?.[1] || 0, 10);
-                const numB = parseInt(nameB.match(/[-](\d+)$/)?.[1] || 0, 10);
+                const numA = parseInt(nameA.match(/-(\d+)$/)?.[1] || 0, 10);
+                const numB = parseInt(nameB.match(/-(\d+)$/)?.[1] || 0, 10);
                 return numA - numB;
             });
 
@@ -1111,7 +1560,9 @@
             const lMinutes = String(targetTime.getMinutes()).padStart(2, '0');
             const lSeconds = String(targetTime.getSeconds()).padStart(2, '0');
 
-            baseFolderFormat = `${lYear}-${lMonth}-${lDay}-${lHours}-${lMinutes}-${lSeconds}`;
+            baseFolderFormat = lYear + "-" + lMonth + "-" + lDay + "-" + lHours + "-" + lMinutes + "-" + lSeconds;
+
+            isCustomTimeApplied = true;
 
             const laFormatter = new Intl.DateTimeFormat('en-US', {
                 timeZone: 'America/Los_Angeles',
@@ -1130,8 +1581,13 @@
 
             if (laParts.hour === '24') laParts.hour = '00';
 
-            const laSessionStr = `${laParts.year}-${laParts.month}-${laParts.day} ${laParts.hour}:${laParts.minute}:${laParts.second}`;
-            let interleavedRunningTime = new Date(laSessionStr.replace(/[-]/g, '/'));
+            const laSessionStr = laParts.year + "-" + laParts.month + "-" + laParts.day + " " + laParts.hour + ":" + laParts.minute + ":" + laParts.second;
+            let interleavedRunningTime = new Date(laSessionStr.replace(/-/g, '/'));
+
+            let runningMicroseconds = 0;
+            if (customUsToggle.checked) {
+                runningMicroseconds = parseInt(customUsInput.value, 10);
+            }
 
             computedTrackParentMapping = {};
 
@@ -1143,21 +1599,92 @@
                 const subFolderName = row.dataset.subFolderName;
 
                 if (!isFlatStructure && trackLabel && subFolderName) {
-                    computedTrackParentMapping[`${trackLabel}||${subFolderName}`] = baseFolderFormat;
+                    computedTrackParentMapping[trackLabel + "||" + subFolderName] = baseFolderFormat;
                 }
 
                 let preservedMs = "";
-                if (tstSpan && tstSpan.textContent) {
-                    const currentTstValue = tstSpan.textContent.trim();
-                    const msMatch = currentTstValue.match(/\.\d+/);
-                    if (msMatch) {
-                        preservedMs = msMatch[0]; 
-                    }
-                }
                 
-                if (!preservedMs) {
-                    const systemMs = String(targetTime.getMilliseconds()).padStart(3, '0');
-                    preservedMs = `.${systemMs}000`;
+                if (customUsToggle.checked) {
+                    if (index === 0) {
+                        interleavedRunningTime.setSeconds(interleavedRunningTime.getSeconds() + 10);
+                    } else {
+                        interleavedRunningTime.setSeconds(interleavedRunningTime.getSeconds() + 4);
+                    }
+
+                    const totalRowSeconds = parseFloat(row.dataset.seconds || 0);
+                    const wholeSecondsToInject = Math.floor(totalRowSeconds);
+                    
+                    let fractionalUs = Math.round((totalRowSeconds - wholeSecondsToInject) * 1000000);
+                    
+                    const dynamicVariance = Math.floor(Math.random() * 75000) + 125000;
+                    const microsecondIncrement = fractionalUs + dynamicVariance + (index * 743);
+
+                    preservedMs = "." + String(runningMicroseconds).padStart(6, '0');
+
+                    if (sstSpan && sstSpan.textContent !== 'no metadata' && sstSpan.textContent !== 'Checking...') {
+                        sstSpan.className = 'meta-value sst-field';
+                        sstSpan.textContent = laSessionStr;
+                    }
+
+                    if (tstSpan && tstSpan.textContent !== '—' && tstSpan.textContent !== 'Checking...') {
+                        const nYear = interleavedRunningTime.getFullYear();
+                        const nMonth = String(interleavedRunningTime.getMonth() + 1).padStart(2, '0');
+                        const nDay = String(interleavedRunningTime.getDate()).padStart(2, '0');
+                        const nHours = String(interleavedRunningTime.getHours()).padStart(2, '0');
+                        const nMinutes = String(interleavedRunningTime.getMinutes()).padStart(2, '0');
+                        const nSeconds = String(interleavedRunningTime.getSeconds()).padStart(2, '0');
+
+                        tstSpan.className = 'meta-value tst-field';
+                        tstSpan.textContent = nYear + "-" + nMonth + "-" + nDay + " " + nHours + ":" + nMinutes + ":" + nSeconds + preservedMs;
+                    }
+
+                    interleavedRunningTime.setSeconds(interleavedRunningTime.getSeconds() + wholeSecondsToInject);
+                    
+                    runningMicroseconds += microsecondIncrement;
+                    if (runningMicroseconds >= 1000000) {
+                        const secondsCarried = Math.floor(runningMicroseconds / 1000000);
+                        interleavedRunningTime.setSeconds(interleavedRunningTime.getSeconds() + secondsCarried);
+                        runningMicroseconds = runningMicroseconds % 1000000;
+                    }
+
+                } else {
+                    if (tstSpan && tstSpan.textContent) {
+                        const currentTstValue = tstSpan.textContent.trim();
+                        const msMatch = currentTstValue.match(/\.\d+/);
+                        if (msMatch) {
+                            preservedMs = msMatch[0]; 
+                        }
+                    }
+                    if (!preservedMs) {
+                        const systemMs = String(targetTime.getMilliseconds()).padStart(3, '0');
+                        preservedMs = "." + systemMs + "000";
+                    }
+
+                    if (sstSpan && sstSpan.textContent !== 'no metadata' && sstSpan.textContent !== 'Checking...') {
+                        sstSpan.className = 'meta-value sst-field';
+                        sstSpan.textContent = laSessionStr;
+                    }
+
+                    if (tstSpan && tstSpan.textContent !== '—' && tstSpan.textContent !== 'Checking...') {
+                        if (index === 0) {
+                            interleavedRunningTime.setSeconds(interleavedRunningTime.getSeconds() + 10);
+                        } else {
+                            interleavedRunningTime.setSeconds(interleavedRunningTime.getSeconds() + 4);
+                        }
+
+                        const nYear = interleavedRunningTime.getFullYear();
+                        const nMonth = String(interleavedRunningTime.getMonth() + 1).padStart(2, '0');
+                        const nDay = String(interleavedRunningTime.getDate()).padStart(2, '0');
+                        const nHours = String(interleavedRunningTime.getHours()).padStart(2, '0');
+                        const nMinutes = String(interleavedRunningTime.getMinutes()).padStart(2, '0');
+                        const nSeconds = String(interleavedRunningTime.getSeconds()).padStart(2, '0');
+
+                        tstSpan.className = 'meta-value tst-field';
+                        tstSpan.textContent = nYear + "-" + nMonth + "-" + nDay + " " + nHours + ":" + nMinutes + ":" + nSeconds + preservedMs;
+
+                        const rowVideoDuration = parseFloat(row.dataset.seconds || 0);
+                        interleavedRunningTime.setSeconds(interleavedRunningTime.getSeconds() + Math.floor(rowVideoDuration));
+                    }
                 }
 
                 if (nameSpan && nameSpan.textContent) {
@@ -1170,34 +1697,8 @@
                         nameSpan.textContent = baseFolderFormat;
                     }
                 }
-
-                if (sstSpan && sstSpan.textContent !== 'no metadata' && sstSpan.textContent !== 'Checking...') {
-                    sstSpan.className = 'meta-value sst-field';
-                    sstSpan.textContent = laSessionStr;
-                }
-
-                if (tstSpan && tstSpan.textContent !== '—' && tstSpan.textContent !== 'Checking...') {
-                    if (index === 0) {
-                        interleavedRunningTime.setSeconds(interleavedRunningTime.getSeconds() + 10);
-                    } else {
-                        interleavedRunningTime.setSeconds(interleavedRunningTime.getSeconds() + 4);
-                    }
-
-                    const nYear = interleavedRunningTime.getFullYear();
-                    const nMonth = String(interleavedRunningTime.getMonth() + 1).padStart(2, '0');
-                    const nDay = String(interleavedRunningTime.getDate()).padStart(2, '0');
-                    const nHours = String(interleavedRunningTime.getHours()).padStart(2, '0');
-                    const nMinutes = String(interleavedRunningTime.getMinutes()).padStart(2, '0');
-                    const nSeconds = String(interleavedRunningTime.getSeconds()).padStart(2, '0');
-
-                    tstSpan.className = 'meta-value tst-field';
-                    tstSpan.textContent = `${nYear}-${nMonth}-${nDay} ${nHours}:${nMinutes}:${nSeconds}${preservedMs}`;
-
-                    const rowVideoDuration = parseFloat(row.dataset.seconds || 0);
-                    interleavedRunningTime.setSeconds(interleavedRunningTime.getSeconds() + Math.floor(rowVideoDuration));
-                }
             });
-            logToConsole(`🕒 App layer values aligned to baseline selection index sequence.`);
+            logToConsole("🕒 App layer values aligned to baseline selection index sequence.");
         });
 
         compareBtn.addEventListener('click', () => {
@@ -1227,6 +1728,7 @@
             randomizeBtn.disabled = true;
             compareBtn.disabled = true;
             applyDiskBtn.disabled = true;
+            reindexBtn.disabled = true;
 
             let commonSstStr = '';
             allRows.forEach(li => {
@@ -1235,7 +1737,7 @@
                 
                 if (sstSpan && !commonSstStr) {
                     const txt = sstSpan.textContent.trim();
-                    if (txt !== 'Checking...' && txt !== 'no metadata') commonSstStr = txt;
+                    if (txt !== 'no metadata' && txt !== 'Checking...') commonSstStr = txt;
                 }
 
                 if (tstSpan) {
@@ -1269,16 +1771,16 @@
                     
                     if (timeMatch) {
                         originalTimestamp = timeMatch[1]; 
-                        customTextSuffix = currentText.substring(timeMatch[1].length).replace(/[-]\d+$/, ''); 
+                        customTextSuffix = currentText.substring(timeMatch[1].length).replace(/-\d+$/, ''); 
                     } else {
-                        customTextSuffix = currentText.replace(/[-]\d+$/, '');
+                        customTextSuffix = currentText.replace(/-\d+$/, '');
                     }
                     
                     li.dataset.preservedTimestamp = originalTimestamp;
                     li.dataset.cleanSuffix = customTextSuffix;
 
                     const randNum = Math.floor(Math.random() * 4001) + 1000;
-                    nameSpan.textContent = `[TEMPNAME_${randNum}]${customTextSuffix}`;
+                    nameSpan.textContent = "[TEMPNAME_" + randNum + "]" + customTextSuffix;
                 }
 
                 if (tstSpan) {
@@ -1306,14 +1808,14 @@
             let progress = 0;
             const progressInterval = setInterval(() => {
                 progress += 2;
-                progressBar.style.width = `${progress}%`;
+                progressBar.style.width = progress + "%";
 
                 if (progress >= 100) {
                     clearInterval(progressInterval);
                     
                     let currentRunningTime = null;
                     if (commonSstStr) {
-                        currentRunningTime = new Date(commonSstStr.replace(/[-]/g, '/'));
+                        currentRunningTime = new Date(commonSstStr.replace(/-/g, '/'));
                     }
 
                     trackGroups.forEach((group, trackIdx) => {
@@ -1338,11 +1840,11 @@
                             const cleanSuffix = li.dataset.cleanSuffix || '';
                             const paddedIndex = String(li.dataset.plannedEpisodeIndex).padStart(5, '0');
 
-                            nameSpan.textContent = `${originalTimeBase}${cleanSuffix}-${paddedIndex}`;
+                            nameSpan.textContent = originalTimeBase + cleanSuffix + "-" + paddedIndex;
 
                             const historySpan = document.createElement('span');
                             historySpan.className = 'history-name';
-                            historySpan.textContent = `← Was: ${li.dataset.originalPreShuffleName}`;
+                            historySpan.textContent = "← Was: " + li.dataset.originalPreShuffleName;
                             nameContainer.appendChild(historySpan);
                         }
 
@@ -1365,7 +1867,7 @@
                             const nSeconds = String(currentRunningTime.getSeconds()).padStart(2, '0');
 
                             tstSpan.className = 'meta-value tst-field';
-                            tstSpan.textContent = `${nYear}-${nMonth}-${nDay} ${nHours}:${nMinutes}:${nSeconds}${preservedMicroseconds}`;
+                            tstSpan.textContent = nYear + "-" + nMonth + "-" + nDay + " " + nHours + ":" + nMinutes + ":" + nSeconds + preservedMicroseconds;
 
                             const rowVideoDuration = parseFloat(li.dataset.seconds || 0);
                             currentRunningTime.setSeconds(currentRunningTime.getSeconds() + Math.floor(rowVideoDuration));
@@ -1376,9 +1878,135 @@
                     randomizeBtn.disabled = false;
                     compareBtn.disabled = false;
                     applyDiskBtn.disabled = false;
+                    reindexBtn.disabled = false;
                     logToConsole("🎲 Collection sequences reshuffled. Cross-track chronology chaining applied successfully.");
                 }
             }, 12);
+        });
+
+        reindexBtn.addEventListener('click', () => {
+
+            if (customUsToggle.checked && !validateMicrosecondsInput()) {
+                alert("Please provide a valid 6-digit microsecond value first.");
+                return;
+            }
+
+            const allRows = Array.from(document.querySelectorAll('.data-row'));
+            if (allRows.length === 0) return;
+
+            const pickerValue = timePicker.value;
+            const targetTime = pickerValue ? new Date(pickerValue) : new Date();
+
+            const lYear = targetTime.getFullYear();
+            const lMonth = String(targetTime.getMonth() + 1).padStart(2, '0');
+            const lDay = String(targetTime.getDate()).padStart(2, '0');
+            const lHours = String(targetTime.getHours()).padStart(2, '0');
+            const lMinutes = String(targetTime.getMinutes()).padStart(2, '0');
+            const lSeconds = String(targetTime.getSeconds()).padStart(2, '0');
+
+            const baseFolderFormat = lYear + "-" + lMonth + "-" + lDay + "-" + lHours + "-" + lMinutes + "-" + lSeconds;
+            isCustomTimeApplied = true;
+
+            const laFormatter = new Intl.DateTimeFormat('en-US', {
+                timeZone: 'America/Los_Angeles',
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                hour12: false
+            });
+
+            const parts = laFormatter.formatToParts(targetTime);
+            const laParts = {};
+            parts.forEach(p => laParts[p.type] = p.value);
+            if (laParts.hour === '24') laParts.hour = '00';
+
+            const laSessionStr = laParts.year + "-" + laParts.month + "-" + laParts.day + " " + laParts.hour + ":" + laParts.minute + ":" + laParts.second;
+            let currentRunningTime = new Date(laSessionStr.replace(/-/g, '/'));
+
+            let evenCounter = 0;
+            let oddCounter = 1;
+            computedTrackParentMapping = {};
+            const chronologicalRows = [];
+
+            if (isFlatStructure) {
+                const sortedFlat = [...allRows].sort((a, b) => {
+                    const timeA = new Date(a.querySelector('.tst-field').textContent.replace(' ', 'T')).getTime();
+                    const timeB = new Date(b.querySelector('.tst-field').textContent.replace(' ', 'T')).getTime();
+                    return timeA - timeB;
+                });
+                chronologicalRows.push(...sortedFlat);
+            } else {
+                const trackGroups = Array.from(document.querySelectorAll('.track-group'));
+                trackGroups.forEach((group, trackIdx) => {
+                    const currentTrackRows = Array.from(group.querySelectorAll('.data-row'));
+                    currentTrackRows.forEach((row, rowIndex) => {
+                        row.dataset.plannedEpisodeIndex = (rowIndex * trackGroups.length) + trackIdx;
+                    });
+                });
+                chronologicalRows.push(...Array.from(document.querySelectorAll('.data-row'))
+                    .sort((a, b) => parseInt(a.dataset.plannedEpisodeIndex) - parseInt(b.dataset.plannedEpisodeIndex)));
+            }
+
+            chronologicalRows.forEach((row, index) => {
+                const nameSpan = row.querySelector('.folder-name');
+                const sstSpan = row.querySelector('.sst-field');
+                const tstSpan = row.querySelector('.tst-field');
+                const trackLabel = row.dataset.trackLabel;
+                const subFolderName = row.dataset.subFolderName;
+
+                if (!isFlatStructure && trackLabel && subFolderName) {
+                    computedTrackParentMapping[trackLabel + "||" + subFolderName] = baseFolderFormat;
+                }
+
+                const originalName = row.dataset.diskOriginalName || nameSpan.textContent.trim();
+                const suffixMatch = originalName.match(/-(gr00t\d+-)(\d+)$/i);
+                let staticPart = suffixMatch ? suffixMatch[1] : "gr00t002-";
+
+                let newIndex;
+                if (isFlatStructure) {
+                    newIndex = String(index).padStart(5, '0');
+                } else {
+                    const isLi1 = trackLabel.toUpperCase().includes('LI 1');
+                    if (isLi1) {
+                        newIndex = String(evenCounter).padStart(5, '0');
+                        evenCounter += 2;
+                    } else {
+                        newIndex = String(oddCounter).padStart(5, '0');
+                        oddCounter += 2;
+                    }
+                }
+
+                nameSpan.textContent = baseFolderFormat + "-" + staticPart + newIndex;
+
+                // ONLY move elements if we are in Flat mode to preserve Nested groups
+                if (isFlatStructure) {
+                    outputDiv.appendChild(row);
+                }
+
+                if (sstSpan && sstSpan.textContent !== 'no metadata' && sstSpan.textContent !== 'Checking...') {
+                    sstSpan.className = 'meta-value sst-field';
+                    sstSpan.textContent = laSessionStr;
+                }
+
+                if (tstSpan && tstSpan.textContent !== '—' && tstSpan.textContent !== 'Checking...') {
+                    let preservedMs = (tstSpan.textContent.match(/\.\d+/) || ['.000000'])[0];
+                    
+                    if (index === 0) currentRunningTime.setSeconds(currentRunningTime.getSeconds() + 10);
+                    else currentRunningTime.setSeconds(currentRunningTime.getSeconds() + 4);
+
+                    const nYear = currentRunningTime.getFullYear();
+                    const nMonth = String(currentRunningTime.getMonth() + 1).padStart(2, '0');
+                    const nDay = String(currentRunningTime.getDate()).padStart(2, '0');
+                    const nHours = String(currentRunningTime.getHours()).padStart(2, '0');
+                    const nMinutes = String(currentRunningTime.getMinutes()).padStart(2, '0');
+                    const nSeconds = String(currentRunningTime.getSeconds()).padStart(2, '0');
+
+                    tstSpan.className = 'meta-value tst-field';
+                    tstSpan.textContent = `${nYear}-${nMonth}-${nDay} ${nHours}:${nMinutes}:${nSeconds}${preservedMs}`;
+                    currentRunningTime.setSeconds(currentRunningTime.getSeconds() + Math.floor(parseFloat(row.dataset.seconds || 0)));
+                }
+            });
+
+            logToConsole("🔢 Reindex completed successfully.");
         });
 
         applyDiskBtn.addEventListener('click', async (e) => {
@@ -1401,6 +2029,7 @@
 
             applyDiskBtn.disabled = true;
             randomizeBtn.disabled = true;
+            reindexBtn.disabled = true;
             selectBtn.disabled = true;
             parentFolderDropdown.disabled = true;
 
@@ -1409,11 +2038,16 @@
 
             try {
                 const logPickerValue = timePicker.value;
-                const logTargetDateObj = logPickerValue ? new Date(logPickerValue) : new Date();
-                const logYear = logTargetDateObj.getFullYear();
-                const logMonth = String(logTargetDateObj.getMonth() + 1).padStart(2, '0');
-                const logDay = String(logTargetDateObj.getDate()).padStart(2, '0');
-                const logNewDateString = `${logYear}-${logMonth}-${logDay}`;
+                let logNewDateString = "";
+
+                // 🛠️ ONLY compute a new date string if a time/date was actively requested via Picker or Randomize
+                if (logPickerValue) {
+                    const logTargetDateObj = new Date(logPickerValue);
+                    const logYear = logTargetDateObj.getFullYear();
+                    const logMonth = String(logTargetDateObj.getMonth() + 1).padStart(2, '0');
+                    const logDay = String(logTargetDateObj.getDate()).padStart(2, '0');
+                    logNewDateString = logYear + "-" + logMonth + "-" + logDay;
+                }
 
                 const taskPlan = [];
 
@@ -1435,8 +2069,8 @@
                         try {
                             const parentTrackDir = await mainDirectoryHandle.getDirectoryHandle(trackLabel);
                             sequenceDir = await parentTrackDir.getDirectoryHandle(subFolderName);
-                        } catch (errDir) {
-                            logToConsole(`⚠️ Path layer container error on ${trackLabel}\\${subFolderName}, skipping.`);
+                        } catch (e) {
+                            logToConsole("⚠️ Path layer container error on " + trackLabel + "\\" + subFolderName + ", skipping.");
                             continue;
                         }
                     }
@@ -1444,8 +2078,8 @@
                     let folderHandle;
                     try {
                         folderHandle = await sequenceDir.getDirectoryHandle(originalName);
-                    } catch (errGetDir) {
-                        logToConsole(`⚠️ Original folder elements not located, skipping: ${originalName}`);
+                    } catch (e) {
+                        logToConsole("⚠️ Original folder elements not located, skipping: " + originalName);
                         continue;
                     }
 
@@ -1459,30 +2093,40 @@
                         if (cleanSst) json.session.session_start_time = cleanSst;
                         if (cleanTst) json.session.trajectory_start_time = cleanTst;
 
-                        let updatedJsonString = JSON.stringify(json, null, 4);
+                        let rawJsonOutputString = JSON.stringify(json, null, 4);
 
-                        updatedJsonString = updatedJsonString.replace(
-                            /"(fps|record_frequency|body_controller_frequency|hand_controller_frequency)":\s*(\d+)(,?\s*)$/gm, 
-                            (match, key, value, suffix) => {
-                                return `"${key}": ${value}.0${suffix}`;
-                            }
+                        rawJsonOutputString = rawJsonOutputString.replace(
+                            /("ego_view"\s*:\s*\{[\s\S]*?"fps"\s*:\s*)(\d+)(?=\s|,|\n)/g,
+                            "$1$2.0"
+                        );
+                        rawJsonOutputString = rawJsonOutputString.replace(
+                            /("embodiment"\s*:\s*\{[\s\S]*?"record_frequency"\s*:\s*)(\d+)(?=\s|,|\n)/g,
+                            "$1$2.0"
+                        );
+                        rawJsonOutputString = rawJsonOutputString.replace(
+                            /("embodiment"\s*:\s*\{[\s\S]*?"body_controller_frequency"\s*:\s*)(\d+)(?=\s|,|\n)/g,
+                            "$1$2.0"
+                        );
+                        rawJsonOutputString = rawJsonOutputString.replace(
+                            /("embodiment"\s*:\s*\{[\s\S]*?"hand_controller_frequency"\s*:\s*)(\d+)(?=\s|,|\n)/g,
+                            "$1$2.0"
                         );
 
                         const writable = await fileHandle.createWritable();
-                        await writable.write(updatedJsonString);
+                        await writable.write(rawJsonOutputString);
                         await writable.close();
-                        logToConsole(`✅ Updated metadata values inside: ${isFlatStructure ? '' : trackLabel+'/'}${subFolderName+'/'}${originalName}/metadata.json`);
+                        logToConsole("✅ Updated metadata values inside: " + (isFlatStructure ? '' : trackLabel+'/') + subFolderName + '/' + originalName + "/metadata.json");
                     } catch (metaError) {
-                        logToConsole(`ℹ). No metadata.json object modified in folder: ${originalName}`);
+                        logToConsole("ℹ). No metadata.json object modified in folder: " + originalName);
                     }
 
                     taskPlan.push({ 
-                        row, 
-                        originalName, 
-                        newName, 
+                        row: row, 
+                        originalName: originalName, 
+                        newName: newName, 
                         currentDiskName: originalName, 
-                        sequenceDir, 
-                        pathPrefix: isFlatStructure ? '' : `${trackLabel}/${subFolderName}/` 
+                        sequenceDir: sequenceDir, 
+                        pathPrefix: isFlatStructure ? '' : trackLabel + "/" + subFolderName + "/" 
                     });
                 }
 
@@ -1498,7 +2142,7 @@
                             const targetSubDir = await parentTrackDir.getDirectoryHandle(pathMeta.subFolderName);
                             logContainersToScan.push({ 
                                 handle: targetSubDir, 
-                                prefix: `${pathMeta.trackLabel}/${pathMeta.subFolderName}/` 
+                                prefix: pathMeta.trackLabel + "/" + pathMeta.subFolderName + "/" 
                             });
                         } catch (e) {}
                     }
@@ -1508,23 +2152,34 @@
                     for (const logFolderName of ['log', 'logs']) {
                         try {
                             const logDirHandle = await container.handle.getDirectoryHandle(logFolderName);
+
                             for await (const entry of logDirHandle.values()) {
                                 if (entry.kind === 'file' && entry.name.includes('_automatic_upload')) {
-                                    const extensionMatch = entry.name.match(/(\.[^.]+)$/);
-                                    const extension = extensionMatch ? extensionMatch[1] : '.txt';
-                                    const cleanLogNewName = `${logNewDateString}_automatic_upload${extension}`;
                                     
-                                    logToConsole(`📄 Processing log file: [${container.prefix}${logFolderName}/${entry.name}]`);
+                                    logToConsole("📄 Processing log file: [" + container.prefix + logFolderName + "/" + entry.name + "]");
 
+                                    // 1. Wipe text content clean without touching the name
                                     const logFileHandle = await logDirHandle.getFileHandle(entry.name);
                                     const writable = await logFileHandle.createWritable();
                                     await writable.write(""); 
                                     await writable.close();
-                                    logToConsole(`   ↳ Text contents wiped clear.`);
+                                    logToConsole("   ↳ Text contents wiped clear.");
 
-                                    if (entry.name !== cleanLogNewName) {
-                                        await entry.move(logDirHandle, cleanLogNewName);
-                                        logToConsole(`   ↳ File realigned to: [${cleanLogNewName}]`);
+                                    // 2. 🛠️ FIX: Only calculate a realignment rename IF a custom time sequence was intentionally applied
+                                    if (isCustomTimeApplied && logNewDateString) {
+                                        const extensionMatch = entry.name.match(/(\.[^.]+)$/);
+                                        const extension = extensionMatch ? extensionMatch[1] : '.txt';
+                                        const finalLogTargetName = logNewDateString + "_automatic_upload" + extension;
+
+                                        if (entry.name !== finalLogTargetName) {
+                                            await entry.move(logDirHandle, finalLogTargetName);
+                                            logToConsole("   ↳ File realigned to: [" + finalLogTargetName + "]");
+                                        } else {
+                                            logToConsole("   ↳ Retained original filename context: [" + entry.name + "]");
+                                        }
+                                    } else {
+                                        // No custom configuration was applied; clear content but keep original file identity
+                                        logToConsole("   ↳ Retained original filename context: [" + entry.name + "]");
                                     }
                                 }
                             }
@@ -1539,7 +2194,7 @@
                     if (task.originalName !== task.newName) {
                         try {
                             const srcHandle = await task.sequenceDir.getDirectoryHandle(task.currentDiskName);
-                            const tempName = `${task.newName}_TEMP_${Math.floor(Math.random() * 1000000)}`;
+                            const tempName = task.newName + "_TEMP_" + Math.floor(Math.random() * 1000000);
                             const destHandle = await task.sequenceDir.getDirectoryHandle(tempName, { create: true });
 
                             const fileEntries = [];
@@ -1551,8 +2206,8 @@
 
                             for (const fileEntry of fileEntries) {
                                 if (fileEntry.name.toLowerCase().endsWith('.mp4')) {
-                                    await fileEntry.move(destHandle, `${task.newName}.mp4`);
-                                    logToConsole(`📹 Renamed Mp4 File: [${task.pathPrefix}${fileEntry.name}] ➔ [${task.newName}.mp4]`);
+                                    await fileEntry.move(destHandle, task.newName + ".mp4");
+                                    logToConsole("📹 Renamed Mp4 File: [" + task.pathPrefix + fileEntry.name + "] ➔ [" + task.newName + ".mp4]");
                                 } else {
                                     await fileEntry.move(destHandle);
                                 }
@@ -1561,7 +2216,7 @@
                             await task.sequenceDir.removeEntry(task.currentDiskName, { recursive: true });
                             task.currentDiskName = tempName; 
                         } catch (err) {
-                            logToConsole(`❌ Error during evacuation phase for ${task.originalName}: ${err.message}`);
+                            logToConsole("❌ Error during evacuation phase for " + task.originalName + ": " + err.message);
                         }
                     }
                 }
@@ -1586,12 +2241,12 @@
                             }
 
                             await task.sequenceDir.removeEntry(task.currentDiskName, { recursive: true });
-                            logToConsole(`📂 Realigned folder: [${task.pathPrefix}${task.originalName}] ➔ [${task.newName}]`);
+                            logToConsole("📂 Realigned folder: [" + task.pathPrefix + task.originalName + "] ➔ [" + task.newName + "]");
                         } catch (err) {
-                            logToConsole(`❌ Error finalising address path mapping targets for ${task.newName}: ${err.message}`);
+                            logToConsole("❌ Error finalising address path mapping targets for " + task.newName + ": " + err.message);
                         }
                     } else {
-                        logToConsole(`ℹ️ Folder name unchanged on disk: [${task.pathPrefix}${task.newName}]`);
+                        logToConsole("ℹ). Folder name unchanged on disk: [" + task.pathPrefix + task.newName + "]");
                     }
 
                     task.row.dataset.diskOriginalName = task.newName;
@@ -1605,7 +2260,9 @@
                     logToConsole("\n🔄 Realigning middle structural timestamp directories...");
                     
                     for (const key in computedTrackParentMapping) {
-                        const [trackLabel, oldSubFolderName] = key.split('||');
+                        const splitKey = key.split('||');
+                        const trackLabel = splitKey[0];
+                        const oldSubFolderName = splitKey[1];
                         const newSubFolderName = computedTrackParentMapping[key];
 
                         if (oldSubFolderName !== newSubFolderName) {
@@ -1630,15 +2287,15 @@
                                 }
 
                                 await parentTrackDir.removeEntry(oldSubFolderName, { recursive: true });
-                                logToConsole(`📁 Updated middle container folder: [${trackLabel}/${oldSubFolderName}] ➔ [${trackLabel}/${newSubFolderName}]`);
+                                logToConsole("📁 Updated middle container folder: [" + trackLabel + "/" + oldSubFolderName + "] ➔ [" + trackLabel + "/" + newSubFolderName + "]");
                             } catch (dirRenameError) {
-                                logToConsole(`❌ Error shifting middle layout folder configuration for ${trackLabel}\\${oldSubFolderName}: ${dirRenameError.message}`);
+                                logToConsole("❌ Error shifting middle layout folder configuration for " + trackLabel + "\\" + oldSubFolderName + ": " + dirRenameError.message);
                             }
                         }
                     }
                     
                     trackPaths = trackPaths.map(p => {
-                        const targetKey = `${p.trackLabel}||${p.subFolderName}`;
+                        const targetKey = p.trackLabel + "||" + p.subFolderName;
                         if (computedTrackParentMapping[targetKey]) {
                             p.subFolderName = computedTrackParentMapping[targetKey];
                         }
@@ -1656,7 +2313,7 @@
 
                     if (mainDirectoryHandle.name !== masterNewFolderName) {
                         try {
-                            logToConsole(`\n⚙️ Executing Top-Level Workspace context rename via deep folder migration...`);
+                            logToConsole("\n⚙️ Executing Top-Level Workspace context rename via deep folder migration...");
                             
                             const newParentHandle = await rootWorkspaceHandle.getDirectoryHandle(masterNewFolderName, { create: true });
                             
@@ -1678,7 +2335,7 @@
                             
                             const oldFolderName = mainDirectoryHandle.name;
                             await rootWorkspaceHandle.removeEntry(oldFolderName, { recursive: true });
-                            logToConsole(`🎉 Success! Selected parent directory context renamed: [${oldFolderName}] ➔ [${masterNewFolderName}]`);
+                            logToConsole("🎉 Success! Selected parent directory context renamed: [" + oldFolderName + "] ➔ [" + masterNewFolderName + "]");
                             
                             mainDirectoryHandle = newParentHandle;
                             
@@ -1689,23 +2346,81 @@
                                 parentFolderDropdown.value = masterNewFolderName;
                             }
                         } catch (rootRenameError) {
-                            logToConsole(`❌ Error migrating context directory folder configuration: ${rootRenameError.message}`);
+                            logToConsole("❌ Error migrating context directory folder configuration: " + rootRenameError.message);
                         }
                     }
                 }
 
                 logToConsole("\n🎉 All folder, video file, and JSON actions completed successfully!");
-                logToConsole("🟢 Execution sequence clear. View state aligned with your disk changes.");
+                logToConsole("<div style='color: #27ae60; font-weight: bold;'>🟢 Execution sequence clear. View state aligned with your disk changes.</div>");
 
             } catch (globalError) {
-                logToConsole(`\n❌ CRITICAL CRASH during disk deployment phase: ${globalError.message}`);
-                alert(`An error occurred while deploying changes to disk: ${globalError.message}`);
+                logToConsole("\n❌ CRITICAL CRASH during disk deployment phase: " + globalError.message);
+                alert("An error occurred while deploying changes to disk: " + globalError.message);
             } finally {
                 applyDiskBtn.disabled = false;
                 randomizeBtn.disabled = false;
+                reindexBtn.disabled = false;
                 selectBtn.disabled = false;
                 parentFolderDropdown.disabled = false;
             }
+        });
+
+        // --- Log Viewer Modal Logic ---
+        viewLogsBtn.addEventListener('click', async () => {
+            if (!mainDirectoryHandle) return;
+            let logDirHandle = null;
+            let foundText = "";
+
+            try {
+                const possibleNames = ['log', 'logs'];
+                const logContainersToScan = [];
+                
+                if (isFlatStructure) {
+                    logContainersToScan.push(mainDirectoryHandle);
+                } else {
+                    for (const pathMeta of trackPaths) {
+                        try {
+                            const parentTrackDir = await mainDirectoryHandle.getDirectoryHandle(pathMeta.trackLabel);
+                            const targetSubDir = await parentTrackDir.getDirectoryHandle(pathMeta.subFolderName);
+                            logContainersToScan.push(targetSubDir);
+                        } catch (e) {}
+                    }
+                }
+
+                let fileFound = false;
+                for (const container of logContainersToScan) {
+                    if (fileFound) break;
+                    for (const name of possibleNames) {
+                        try {
+                            const lHandle = await container.getDirectoryHandle(name);
+                            for await (const entry of lHandle.values()) {
+                                if (entry.kind === 'file' && (entry.name.endsWith('.txt') || entry.name.endsWith('.log'))) {
+                                    const fileHandle = await lHandle.getFileHandle(entry.name);
+                                    const file = await fileHandle.getFile();
+                                    foundText = await file.text();
+                                    fileFound = true;
+                                    break;
+                                }
+                            }
+                        } catch(e) {}
+                        if (fileFound) break;
+                    }
+                }
+
+                if (!fileFound) {
+                    foundText = "No log files found in the targeted directories.";
+                }
+            } catch (err) {
+                foundText = "Error reading logs: " + err.message;
+            }
+
+            document.getElementById('log-modal-content').textContent = foundText;
+            document.getElementById('log-modal-overlay').style.display = 'flex';
+        });
+
+        document.getElementById('btn-close-modal').addEventListener('click', () => {
+            document.getElementById('log-modal-overlay').style.display = 'none';
         });
 
         async function getFolderMetadata(dirHandle) {
@@ -1729,7 +2444,7 @@
                         const duration = await getVideoDuration(file);
                         totalDuration += duration;
                     } catch (e) {
-                        console.error(`Could not read duration for ${entry.name}:`, e);
+                        console.error("Could not read duration for " + entry.name + ":", e);
                     }
                 }
             }
@@ -1758,12 +2473,14 @@
 
                     while (localOffset < buffer.byteLength - 8) {
                         const boxLength = view.getUint32(localOffset);
-                        const boxType = String.fromCharCode(
+                        
+                        const boxBytes = [
                             view.getUint8(localOffset + 4),
                             view.getUint8(localOffset + 5),
                             view.getUint8(localOffset + 6),
                             view.getUint8(localOffset + 7)
-                        );
+                        ];
+                        const boxType = boxBytes.map(b => String.fromCharCode(b)).join('');
 
                         if (boxType === 'moov' || boxType === 'trak' || boxType === 'mdia') {
                             localOffset += 8;
@@ -1829,9 +2546,9 @@
             const secs = Math.floor(totalSeconds % 60);
 
             if (hrs > 0) {
-                return `${hrs}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                return hrs + ":" + mins.toString().padStart(2, '0') + ":" + secs.toString().padStart(2, '0');
             }
-            return `${mins}:${secs.toString().padStart(2, '0')}`;
+            return mins + ":" + secs.toString().padStart(2, '0');
         }
 
         const darkModeToggle = document.getElementById('darkModeToggle');
@@ -1848,61 +2565,6 @@
             if (saved === '1') {
                 document.body.classList.add('dark-mode');
                 darkModeToggle.textContent = '☀️';
-            }
-        });
-
-        const viewerModeBtn = document.getElementById('viewerModeBtn');
-        const pipelineTitle = document.querySelector('.control-group').previousElementSibling;
-
-        viewerModeBtn.addEventListener('click', () => {
-            const isViewerActive = document.body.classList.toggle('viewer-mode-active');
-            if (isViewerActive) {
-                viewerModeBtn.textContent = '🛠️';
-                pipelineTitle.textContent = '⚙️ Select Root Folder';
-            } else {
-                viewerModeBtn.textContent = '👁️ Switch to Viewer Mode';
-                pipelineTitle.textContent = '⚙️ Control Pipeline';
-            }
-        });
-
-        // ==========================================
-        // APPLICATION FRESH RESET EVENT LOGIC
-        // ==========================================
-        appResetBtn.addEventListener('click', () => {
-            rootWorkspaceHandle = null;
-            mainDirectoryHandle = null;
-            trackPaths = [];
-            isFlatStructure = false;
-            computedTrackParentMapping = {};
-            historyViewActive = false;
-
-            parentFolderDropdown.innerHTML = '<option value="">-- Awaiting Selection --</option>';
-            parentPickerGroup.style.display = 'none';
-
-            startLiveClock();
-
-            folderLabel.textContent = 'No active directory context configuration targeted.';
-            outputDiv.innerHTML = '<p class="empty-msg">No workspace directory context targeted yet.</p>';
-            totalDurationLabel.textContent = 'Total Duration: --:--';
-            listHeader.style.display = 'none';
-
-            if (logConsole) {
-                logConsole.innerHTML = "System idle. Awaiting directory target configuration sequence...";
-            }
-
-            selectBtn.disabled = false;
-            parentFolderDropdown.disabled = false;
-            localTimeBtn.disabled = true;
-            randomizeBtn.disabled = true;
-            applyDiskBtn.disabled = true;
-            
-            compareBtn.disabled = true;
-            compareBtn.classList.remove('active');
-
-            if (document.body.classList.contains('viewer-mode-active')) {
-                document.body.classList.remove('viewer-mode-active');
-                viewerModeBtn.textContent = '👁️ Switch to Viewer Mode';
-                pipelineTitle.textContent = '⚙️ Control Pipeline';
             }
         });
     </script>
