@@ -2206,27 +2206,8 @@
 
                             for (const fileEntry of fileEntries) {
                                 if (fileEntry.name.toLowerCase().endsWith('.mp4')) {
-                                    // 🛠️ CUSTOM VIDEO FILENAME SYSTEM IMPLEMENTATION LAYER
-                                    // Parse variables from current task.newName context
-                                    const parts = task.newName.split('-');
-                                    let targetVideoName = task.newName + ".mp4"; // Fallback architecture
-                                    
-                                    if (parts.length >= 8) {
-                                        const yr = parts[0];
-                                        const mo = parts[1];
-                                        const dy = parts[2];
-                                        const hr = parts[3];
-                                        const mi = parts[4];
-                                        const sc = parts[5];
-                                        const robot = parts[6];
-                                        const idx = parts[7];
-                                        
-                                        // Pattern construction with defaulted prefix: gear-ph-03-[YYYY-MM-DD-HH-mm-ss]-[gr00tXX]-[Index].mp4
-                                        targetVideoName = `gear-ph-03-${yr}-${mo}-${dy}-${hr}-${mi}-${sc}-${robot}-${idx}.mp4`;
-                                    }
-                                    
-                                    await fileEntry.move(destHandle, targetVideoName);
-                                    logToConsole("📹 Renamed Mp4 File: [" + task.pathPrefix + fileEntry.name + "] ➔ [" + targetVideoName + "]");
+                                    await fileEntry.move(destHandle, "gear-ph-03-" + task.newName + ".mp4");
+                                    logToConsole("📹 Renamed Mp4 File: [" + task.pathPrefix + fileEntry.name + "] ➔ [" + task.newName + ".mp4]");
                                 } else {
                                     await fileEntry.move(destHandle);
                                 }
