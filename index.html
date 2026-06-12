@@ -153,12 +153,12 @@
             width: 320px;
             background: var(--bg-card);
             border-right: 1px solid var(--border-color);
-            padding: 24px;
+            padding: 16px 18px;
             box-shadow: var(--shadow-sm);
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            overflow-y: auto;
+            gap: 12px;
+            overflow: hidden;
             box-sizing: border-box;
             flex-shrink: 0;
             height: 100%;
@@ -220,23 +220,23 @@
         /* --- End Sizing Layers --- */
 
         h1 {
-            font-size: 24px;
+            font-size: 21px;
             font-weight: 800;
             letter-spacing: -0.025em;
-            margin: 0 0 4px 0;
+            margin: 0 0 2px 0;
         }
 
         p.subtitle {
             color: var(--text-muted);
-            font-size: 13px;
+            font-size: 12px;
             margin: 0;
-            line-height: 1.4;
+            line-height: 1.25;
         }
 
         .control-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             width: 100%;
         }
 
@@ -252,8 +252,8 @@
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 10px 16px;
-            font-size: 13px;
+            padding: 8px 12px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             border-radius: 6px;
@@ -308,9 +308,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
+            gap: 8px;
             background: var(--track-header);
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 6px;
             border: 1px solid var(--border-color);
             font-size: 12px;
@@ -355,8 +355,8 @@
         }
 
         select, input[type="datetime-local"], input[type="text"].micro-input {
-            padding: 9px 12px;
-            font-size: 13px;
+            padding: 7px 10px;
+            font-size: 12px;
             border: 1px solid var(--border-color);
             border-radius: 6px;
             background-color: var(--bg-card);
@@ -376,6 +376,35 @@
         input[type="text"].micro-input.invalid-field {
             border-color: var(--danger) !important;
             box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+        }
+
+
+        .batch-action-toggle {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .batch-action-choice {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            box-shadow: none;
+            padding: 7px 8px;
+        }
+
+        .batch-action-choice:hover {
+            background-color: var(--track-header);
+        }
+
+        .batch-action-choice.active {
+            background-color: var(--accent-purple);
+            color: white;
+            border-color: transparent;
+        }
+
+        .batch-action-choice.active:hover {
+            background-color: var(--accent-purple-hover);
         }
 
         #selected-folder-label {
@@ -594,7 +623,7 @@
 
         .btn-viewer-toggle {
             background-color: var(--accent-orange);
-            margin-top: auto;
+            margin-top: 8px;
         }
         .btn-viewer-toggle:hover {
             background-color: var(--accent-orange-hover);
@@ -607,7 +636,7 @@
         }
 
         .console-header-label {
-            margin-top: 20px;
+            margin-top: 10px;
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -621,8 +650,8 @@
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
             font-size: 12px;
             color: var(--console-text);
-            padding: 14px 18px;
-            height: 150px;
+            padding: 10px 14px;
+            height: 118px;
             overflow-y: auto;
             white-space: pre-wrap;
             box-shadow: var(--shadow-md);
@@ -664,6 +693,60 @@
         .dark-toggle:hover {
             transform: scale(1.05);
         }
+
+
+        .batch-session-list {
+            padding: 0;
+            margin: 0;
+        }
+        .batch-session-row {
+            display: grid;
+            grid-template-columns: 2.2fr 1fr 1.6fr 1.6fr;
+            gap: 16px;
+            align-items: center;
+            padding: 10px 24px;
+            color: var(--text-main);
+            font-size: 14px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .batch-session-row:hover {
+            background-color: var(--track-header);
+        }
+        .batch-session-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 600;
+        }
+        .batch-session-status,
+        .batch-session-mode,
+        .batch-session-buffer {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .batch-session-summary {
+            background-color: rgba(37, 99, 235, 0.04);
+            font-weight: 600;
+        }
+        .batch-session-summary .batch-session-name {
+            color: var(--track-text);
+        }
+        .batch-preview-track-label {
+            padding: 7px 24px;
+            background: rgba(100, 116, 139, 0.08);
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        body.viewer-mode #batch-mode-toggle-row,
+        body.viewer-mode #batch-options-panel,
+        body.viewer-mode #btn-generate-logs {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -702,6 +785,26 @@
         <div class="control-group">
             <span class="control-label">Workspace Folder</span>
             <button id="btn-select">Select Workspace Root</button>
+            <div class="toggle-container" id="batch-mode-toggle-row" style="margin-top: 4px;">
+                <span style="font-weight: 700;">Batch Multi-Session Mode</span>
+                <label class="switch">
+                    <input type="checkbox" id="batchModeToggle" disabled>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div id="batch-options-panel" style="display: none; flex-direction: column; gap: 8px;">
+                <span class="control-label">Batch Sequencing Action</span>
+                <input type="hidden" id="batchActionSelect" value="reindex">
+                <div class="batch-action-toggle" role="group" aria-label="Batch sequencing action">
+                    <button type="button" id="batchReindexChoiceBtn" class="batch-action-choice active" data-batch-action="reindex">♻️ Reindex</button>
+                    <button type="button" id="batchRandomizeChoiceBtn" class="batch-action-choice" data-batch-action="randomize">🎲 Randomize</button>
+                </div>
+                <span class="control-label">Session Buffer Minutes (Min / Max)</span>
+                <div class="time-picker-wrapper" style="margin-top: 0;">
+                    <input type="text" id="batchBufferMinInput" class="micro-input" value="4" title="Minimum buffer minutes between sessions">
+                    <input type="text" id="batchBufferMaxInput" class="micro-input" value="5" title="Maximum buffer minutes between sessions">
+                </div>
+            </div>
         </div>
         
         <div class="control-group" id="parent-picker-group" style="display: none;">
@@ -744,8 +847,8 @@
             <button id="applyDiskBtn" class="btn-apply-disk" disabled>💾 Apply Changes</button>
         </div>
 
-        <button id="resetAppStateBtn" class="btn-app-reset" style="margin-top: auto; margin-bottom: -30px;">🔄 Reset App State</button>
-        <button id="viewerModeToggleBtn" class="btn-viewer-toggle" style="margin-top: 20px;">👁️ Switch to Viewer Mode</button>        
+        <button id="resetAppStateBtn" class="btn-app-reset" style="margin-top: 6px; margin-bottom: 0;">🔄 Reset App State</button>
+        <button id="viewerModeToggleBtn" class="btn-viewer-toggle" style="margin-top: 6px;">👁️ Switch to Viewer Mode</button>        
     </div>
     
     <div class="sidebar-toggle-tab" id="btn-sidebar-toggle" title="Toggle Configuration Sidebar">◀</div>
@@ -845,6 +948,12 @@
 
     <script>
         const selectBtn = document.getElementById('btn-select');
+        const batchModeToggle = document.getElementById('batchModeToggle');
+        const batchActionSelect = document.getElementById('batchActionSelect');
+        const batchActionChoiceBtns = document.querySelectorAll('.batch-action-choice');
+        const batchOptionsPanel = document.getElementById('batch-options-panel');
+        const batchBufferMinInput = document.getElementById('batchBufferMinInput');
+        const batchBufferMaxInput = document.getElementById('batchBufferMaxInput');
         const parentPickerGroup = document.getElementById('parent-picker-group');
         const parentFolderDropdown = document.getElementById('parentFolderDropdown');
         const localTimeBtn = document.getElementById('localTimeBtn');
@@ -930,6 +1039,95 @@
             validateMicrosecondsInput();
         });
 
+        function setBatchActionChoice(actionValue) {
+            batchActionSelect.value = actionValue;
+            batchActionChoiceBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.batchAction === actionValue);
+            });
+            batchActionSelect.dispatchEvent(new Event('change'));
+        }
+
+        batchActionChoiceBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                setBatchActionChoice(btn.dataset.batchAction);
+            });
+        });
+
+        function updateBatchModeControlVisibility() {
+            const isBatch = batchModeToggle.checked;
+            randomizeBtn.style.display = isBatch ? 'none' : 'inline-flex';
+            reindexBtn.style.display = isBatch ? 'none' : 'inline-flex';
+            compareBtn.style.display = 'inline-flex';
+
+            if (isBatch) {
+                compareBtn.disabled = !rootWorkspaceHandle;
+                randomizeBtn.disabled = true;
+                reindexBtn.disabled = true;
+            }
+        }
+
+        function getBatchTotalDurationSeconds() {
+            let totalSeconds = 0;
+            outputDiv.querySelectorAll('.data-row').forEach(row => {
+                totalSeconds += parseFloat(row.dataset.seconds || 0);
+            });
+            return totalSeconds;
+        }
+
+        function formatDurationLong(totalSeconds) {
+            const safeSeconds = isFinite(totalSeconds) ? totalSeconds : 0;
+            const hrs = Math.floor(safeSeconds / 3600);
+            const mins = Math.floor((safeSeconds % 3600) / 60);
+            const secs = Math.floor(safeSeconds % 60);
+            const pureMinutes = (safeSeconds / 60).toFixed(2);
+            return hrs + "h " + mins + "m " + secs + "s (" + pureMinutes + " mins)";
+        }
+
+        function updateBatchTotalDurationLabel(sessionCountOverride = null) {
+            if (!batchModeToggle.checked) return;
+            const sessionCount = sessionCountOverride !== null
+                ? sessionCountOverride
+                : outputDiv.querySelectorAll('.batch-session-summary').length;
+            totalDurationLabel.textContent = 'Batch Sessions: ' + sessionCount
+                + ' | First Start: ' + (timePicker.value || 'live/current time')
+                + ' | Total Duration: ' + formatDurationLong(getBatchTotalDurationSeconds());
+        }
+
+        batchModeToggle.addEventListener('change', async () => {
+            batchOptionsPanel.style.display = batchModeToggle.checked ? 'flex' : 'none';
+
+            if (batchModeToggle.checked) {
+                parentPickerGroup.style.display = 'none';
+                folderLabel.textContent = rootWorkspaceHandle
+                    ? "Batch Mode Active: Apply Changes will process every session folder inside [" + rootWorkspaceHandle.name + "]."
+                    : "Batch Mode Active: Select a workspace root first.";
+
+                applyDiskBtn.disabled = !rootWorkspaceHandle;
+                // Keep the datetime picker and TST MS controls available in batch mode.
+                // The picker value becomes the first session start time.
+                timePicker.disabled = false;
+                resetTimeBtn.disabled = false;
+                customUsToggle.disabled = false;
+                localTimeBtn.disabled = !rootWorkspaceHandle;
+
+                randomizeBtn.disabled = true;
+                reindexBtn.disabled = true;
+                compareBtn.disabled = !rootWorkspaceHandle;
+                viewLogsBtn.disabled = true;
+                generateLogsBtn.disabled = true;
+                updateBatchModeControlVisibility();
+                await renderBatchSessionFolderList();
+            } else if (rootWorkspaceHandle) {
+                parentPickerGroup.style.display = 'flex';
+                outputDiv.innerHTML = '<p class="empty-msg">Select a target sequence folder from the dropdown to preview one session.</p>';
+                listHeader.style.display = 'none';
+                totalDurationLabel.textContent = "Total Duration: --:--";
+                applyDiskBtn.disabled = !mainDirectoryHandle;
+                updateBatchModeControlVisibility();
+                validateMicrosecondsInput();
+            }
+        });
+
         resetAppStateBtn.addEventListener('click', () => {
             rootWorkspaceHandle = null;
             mainDirectoryHandle = null;
@@ -947,6 +1145,10 @@
             listHeader.style.display = 'none';
             
             customUsToggle.checked = false;
+            batchModeToggle.checked = false;
+            batchOptionsPanel.style.display = 'none';
+            setBatchActionChoice('reindex');
+            updateBatchModeControlVisibility();
             customUsInput.value = "";
             customUsInput.disabled = true;
             customUsInput.classList.remove('invalid-field');
@@ -956,6 +1158,7 @@
             compareBtn.disabled = true;
             applyDiskBtn.disabled = true;
             selectBtn.disabled = false;
+            batchModeToggle.disabled = true;
             parentFolderDropdown.disabled = false;
             viewLogsBtn.disabled = true;
             generateLogsBtn.disabled = true;
@@ -975,12 +1178,14 @@
             isViewerModeActive = !isViewerModeActive;
             
             if (isViewerModeActive) {
+                document.body.classList.add('viewer-mode');
                 engineTitle.textContent = "Session Folder Viewer";
                 engineSubtitle.style.display = "none";
                 
                 chronoConfigGroup.style.display = "none";
                 sequencingMatrixGroup.style.display = "none";
                 applyDiskBtn.style.display = "none";
+                generateLogsBtn.style.display = "none";
                 
                 consoleLabel.style.display = "none";
                 logConsole.style.display = "none";
@@ -990,12 +1195,14 @@
                 
                 viewerModeToggleBtn.style.marginBottom = "0";
             } else {
+                document.body.classList.remove('viewer-mode');
                 engineTitle.textContent = "ChronoVault Engine";
                 engineSubtitle.style.display = "block";
                 
                 chronoConfigGroup.style.display = "flex";
                 sequencingMatrixGroup.style.display = "flex";
                 applyDiskBtn.style.display = "inline-flex";
+                generateLogsBtn.style.display = "inline-flex";
                 
                 consoleLabel.style.display = "block";
                 logConsole.style.display = "block";
@@ -1256,16 +1463,31 @@
                     parentFolderDropdown.appendChild(option);
                 });
 
-                parentPickerGroup.style.display = 'flex';
-                folderLabel.textContent = "Root Environment: " + rootWorkspaceHandle.name + ". Select a sequence target folder step next.";
+                batchModeToggle.disabled = false;
+                parentPickerGroup.style.display = batchModeToggle.checked ? 'none' : 'flex';
+                folderLabel.textContent = batchModeToggle.checked
+                    ? "Batch Mode Active: Apply Changes will process every session folder inside [" + rootWorkspaceHandle.name + "]."
+                    : "Root Environment: " + rootWorkspaceHandle.name + ". Select a sequence target folder step next.";
                 
-                outputDiv.innerHTML = '<p class="empty-msg">Awaiting active target sequence workspace initialization selection...</p>';
-                listHeader.style.display = 'none';
-                localTimeBtn.disabled = true;
-                randomizeBtn.disabled = true;
-                compareBtn.disabled = true;
-                applyDiskBtn.disabled = true;
-                reindexBtn.disabled = true;
+                if (batchModeToggle.checked) {
+                    await renderBatchSessionFolderList();
+                    localTimeBtn.disabled = false;
+                    randomizeBtn.disabled = true;
+                    compareBtn.disabled = false;
+                    reindexBtn.disabled = true;
+                    applyDiskBtn.disabled = false;
+                    updateBatchModeControlVisibility();
+                } else {
+                    outputDiv.innerHTML = '<p class="empty-msg">Awaiting active target sequence workspace initialization selection...</p>';
+                    listHeader.style.display = 'none';
+                    totalDurationLabel.textContent = "Total Duration: --:--";
+                    updateBatchModeControlVisibility();
+                    localTimeBtn.disabled = true;
+                    randomizeBtn.disabled = true;
+                    compareBtn.disabled = true;
+                    applyDiskBtn.disabled = true;
+                    reindexBtn.disabled = true;
+                }
 
                 clearConsole();
                 logToConsole("📥 Broad root directory assigned: [" + rootWorkspaceHandle.name + "]. Dropdown directory list refreshed.");
@@ -1279,8 +1501,7 @@
             }
         });
 
-        parentFolderDropdown.addEventListener('change', async () => {
-            const chosenFolderContext = parentFolderDropdown.value;
+        async function loadSessionContextByName(chosenFolderContext, silent = false) {
             if (!chosenFolderContext || !rootWorkspaceHandle) {
                 outputDiv.innerHTML = '<p class="empty-msg">Awaiting active target sequence workspace initialization selection...</p>';
                 localTimeBtn.disabled = true;
@@ -1290,12 +1511,12 @@
                 reindexBtn.disabled = true;
                 viewLogsBtn.disabled = true;
                 generateLogsBtn.disabled = true;
-                return;
+                return false;
             }
 
             try {
                 mainDirectoryHandle = await rootWorkspaceHandle.getDirectoryHandle(chosenFolderContext);
-                
+                parentFolderDropdown.value = chosenFolderContext;
                 trackPaths = [];
                 isFlatStructure = false;
                 computedTrackParentMapping = {};
@@ -1356,26 +1577,36 @@
                 randomizeBtn.disabled = true;
                 viewLogsBtn.disabled = true;
                 generateLogsBtn.disabled = true;
-                
                 validateMicrosecondsInput();
                 compareBtn.classList.remove('active');
                 historyViewActive = false;
-                
-                clearConsole();
-                logToConsole("📂 Targeted context sequence: " + rootWorkspaceHandle.name + " ➔ " + mainDirectoryHandle.name);
+
+                if (!silent) {
+                    clearConsole();
+                    logToConsole("📂 Targeted context sequence: " + rootWorkspaceHandle.name + " ➔ " + mainDirectoryHandle.name);
+                } else {
+                    logToConsole("\n📦 Batch session loaded: " + mainDirectoryHandle.name);
+                }
                 totalDurationLabel.textContent = "Total Duration: Tracking...";
-                
+
                 await refreshUIList();
+                return true;
 
             } catch (err) {
                 listHeader.style.display = 'none';
                 outputDiv.innerHTML = '<p class="error">Error parsing chosen subdirectory structure: ' + err.message + '</p>';
                 logToConsole("❌ Error targeting nested elements: " + err.message);
                 console.error(err);
+                return false;
             }
+        }
+
+        parentFolderDropdown.addEventListener('change', async () => {
+            await loadSessionContextByName(parentFolderDropdown.value, false);
         });
 
         async function refreshUIList() {
+            listHeader.innerHTML = '<span>Name</span><span>Duration</span><span>SST (Session Start - LA)</span><span>TST (Trajectory Start - LA)</span>';
             if (!mainDirectoryHandle) return;
             outputDiv.innerHTML = '';
             totalDurationLabel.textContent = "Total Duration: Calculating...";
@@ -1452,8 +1683,9 @@
             }, 1200); 
         }
 
-        async function loadSequenceFolders(dirHandle, parentElement, trackLabel, subFolderName) {
+        async function loadSequenceFolders(dirHandle, parentElement, trackLabel, subFolderName, sessionName = "") {
             const entries = [];
+            const pendingLoads = [];
             for await (const entry of dirHandle.values()) {
                 if (entry.kind === 'file') continue;
                 if (entry.kind === 'directory' && entry.name.toLowerCase() !== 'log' && entry.name.toLowerCase() !== 'logs') {
@@ -1469,6 +1701,7 @@
                 li.dataset.diskOriginalName = entry.name;
                 li.dataset.trackLabel = trackLabel;
                 li.dataset.subFolderName = subFolderName;
+                li.dataset.sessionName = sessionName;
                 
                 const nameContainer = document.createElement('div');
                 nameContainer.className = 'name-container';
@@ -1496,7 +1729,7 @@
                 
                 parentElement.appendChild(li);
                 
-                getFolderMp4Duration(entry).then(totalSeconds => {
+                pendingLoads.push(getFolderMp4Duration(entry).then(totalSeconds => {
                     li.dataset.seconds = totalSeconds; 
                     if (totalSeconds > 0) {
                         durationSpan.className = 'duration-badge';
@@ -1505,14 +1738,18 @@
                         let runningSum = 0;
                         document.querySelectorAll('.data-row').forEach(r => runningSum += parseFloat(r.dataset.seconds || 0));
                         const pureMins = (runningSum / 60).toFixed(2);
-                        totalDurationLabel.textContent = "Total Duration: " + Math.floor(runningSum/3600) + "h " + Math.floor((runningSum%3600)/60) + "m " + Math.floor(runningSum%60) + "s (" + pureMins + " mins)";
+                        if (batchModeToggle.checked) {
+                            updateBatchTotalDurationLabel();
+                        } else {
+                            totalDurationLabel.textContent = "Total Duration: " + Math.floor(runningSum/3600) + "h " + Math.floor((runningSum%3600)/60) + "m " + Math.floor(runningSum%60) + "s (" + pureMins + " mins)";
+                        }
                     } else {
                         durationSpan.className = 'no-data';
                         durationSpan.textContent = 'no mp4 files';
                     }
-                });
+                }));
 
-                getFolderMetadata(entry).then(metaData => {
+                pendingLoads.push(getFolderMetadata(entry).then(metaData => {
                     if (metaData) {
                         sstSpan.className = 'meta-value sst-field';
                         sstSpan.textContent = metaData.session?.session_start_time || 'N/A';
@@ -1526,11 +1763,439 @@
                         tstSpan.className = 'no-data tst-field';
                         tstSpan.textContent = '—';
                     }
-                });
+                }));
             }
+            await Promise.all(pendingLoads);
         }
 
-        localTimeBtn.addEventListener('click', () => {
+        function calculateCurrentSessionTotalSeconds() {
+            let total = 0;
+            document.querySelectorAll('.data-row').forEach(row => {
+                total += parseFloat(row.dataset.seconds || 0);
+            });
+            return total;
+        }
+
+
+        function calculateCurrentSessionTimelineSeconds() {
+            const rows = Array.from(document.querySelectorAll('.data-row'));
+            if (rows.length === 0) return 0;
+
+            let earliestTst = null;
+            let latestEnd = null;
+
+            rows.forEach(row => {
+                const tstElement = row.querySelector('.tst-field');
+                if (!tstElement) return;
+                const tstText = tstElement.textContent.trim();
+                if (!tstText || tstText === 'Checking...' || tstText === '—') return;
+
+                const basePart = tstText.split('.')[0].replace(' ', 'T');
+                const startDate = new Date(basePart);
+                if (isNaN(startDate.getTime())) return;
+
+                const durationSeconds = Math.floor(parseFloat(row.dataset.seconds || 0));
+                const endDate = new Date(startDate);
+                endDate.setSeconds(endDate.getSeconds() + durationSeconds);
+
+                if (!earliestTst || startDate < earliestTst) earliestTst = startDate;
+                if (!latestEnd || endDate > latestEnd) latestEnd = endDate;
+            });
+
+            if (!earliestTst || !latestEnd) {
+                return calculateCurrentSessionTotalSeconds();
+            }
+            return Math.max(0, Math.round((latestEnd.getTime() - earliestTst.getTime()) / 1000));
+        }
+
+        function waitForBatchActionToFinish(actionName) {
+            return new Promise(resolve => {
+                if (actionName !== 'randomize') {
+                    setTimeout(resolve, 150);
+                    return;
+                }
+                const startedAt = Date.now();
+                const timer = setInterval(() => {
+                    const stillShuffling = document.querySelector('.shuffling-row') || progressBarWrapper.style.display === 'block';
+                    if (!stillShuffling || Date.now() - startedAt > 10000) {
+                        clearInterval(timer);
+                        resolve();
+                    }
+                }, 100);
+            });
+        }
+
+        async function getEligibleSessionFolderNames() {
+            const names = [];
+            if (!rootWorkspaceHandle) return names;
+            for await (const entry of rootWorkspaceHandle.values()) {
+                if (entry.kind === 'directory' && entry.name.toLowerCase() !== 'log' && entry.name.toLowerCase() !== 'logs') {
+                    names.push(entry.name);
+                }
+            }
+            names.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+            return names;
+        }
+
+        async function discoverSessionTrackPaths(sessionHandle) {
+            const discovered = [];
+            let hasTrackFolders = false;
+            let directSequenceFolders = [];
+
+            for await (const entry of sessionHandle.values()) {
+                if (entry.kind === 'directory' && entry.name.toLowerCase() !== 'log' && entry.name.toLowerCase() !== 'logs') {
+                    if (entry.name.toUpperCase().startsWith('LI ') || entry.name.toUpperCase().startsWith('LI-')) {
+                        hasTrackFolders = true;
+                    }
+                    if (entry.name.match(/\d{4}-\d{2}-\d{2}/)) {
+                        directSequenceFolders.push(entry.name);
+                    }
+                }
+            }
+
+            if (!hasTrackFolders && directSequenceFolders.length > 0) {
+                discovered.push({
+                    trackLabel: 'Workspace Context',
+                    subFolderName: '',
+                    flat: true
+                });
+            } else {
+                for await (const entry of sessionHandle.values()) {
+                    if (entry.kind === 'directory' && (entry.name.toUpperCase().startsWith('LI ') || entry.name.toUpperCase().startsWith('LI-'))) {
+                        const subTrackHandle = await sessionHandle.getDirectoryHandle(entry.name);
+                        for await (const subEntry of subTrackHandle.values()) {
+                            if (subEntry.kind === 'directory' && subEntry.name.toLowerCase() !== 'log' && subEntry.name.toLowerCase() !== 'logs') {
+                                discovered.push({
+                                    trackLabel: entry.name,
+                                    subFolderName: subEntry.name,
+                                    flat: false
+                                });
+                            }
+                        }
+                    }
+                }
+                discovered.sort((a, b) => a.trackLabel.localeCompare(b.trackLabel, undefined, { numeric: true }));
+            }
+            return discovered;
+        }
+
+        async function renderBatchSessionFolderList() {
+            listHeader.style.display = 'grid';
+            listHeader.innerHTML = '<span>Name</span><span>Duration</span><span>SST (Session Start - LA)</span><span>TST (Trajectory Start - LA)</span>';
+
+            if (!rootWorkspaceHandle) {
+                outputDiv.innerHTML = '<p class="empty-msg">Batch mode enabled. Select a workspace root to list session folders.</p>';
+                applyDiskBtn.disabled = true;
+                localTimeBtn.disabled = true;
+                return;
+            }
+
+            const sessionNames = await getEligibleSessionFolderNames();
+            outputDiv.innerHTML = '';
+
+            if (sessionNames.length === 0) {
+                outputDiv.innerHTML = '<p class="empty-msg">No session folders found in this workspace root.</p>';
+                applyDiskBtn.disabled = true;
+                localTimeBtn.disabled = true;
+                return;
+            }
+
+            const groupDiv = document.createElement('div');
+            groupDiv.className = 'track-group';
+
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'track-header-row batch-queue-header';
+            headerDiv.textContent = '🚀 BATCH SESSION QUEUE: ' + sessionNames.length + ' folder' + (sessionNames.length === 1 ? '' : 's');
+            groupDiv.appendChild(headerDiv);
+
+            const bufferText = (batchBufferMinInput.value || '4') + '–' + (batchBufferMaxInput.value || '5') + ' min';
+            const actionText = batchActionSelect.value === 'randomize' ? 'Randomize' : 'Reindex';
+
+            for (let idx = 0; idx < sessionNames.length; idx++) {
+                const name = sessionNames[idx];
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'batch-session-row batch-session-summary';
+                rowDiv.dataset.sessionName = name;
+
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'batch-session-name';
+                nameSpan.textContent = String(idx + 1).padStart(2, '0') + '. ' + name;
+
+                const statusSpan = document.createElement('span');
+                statusSpan.className = 'batch-session-status';
+                statusSpan.textContent = 'Queued';
+
+                const modeSpan = document.createElement('span');
+                modeSpan.className = 'batch-session-mode';
+                modeSpan.textContent = actionText;
+
+                const bufferSpan = document.createElement('span');
+                bufferSpan.className = 'batch-session-buffer';
+                bufferSpan.textContent = idx === sessionNames.length - 1 ? 'Last session' : bufferText;
+
+                rowDiv.appendChild(nameSpan);
+                rowDiv.appendChild(statusSpan);
+                rowDiv.appendChild(modeSpan);
+                rowDiv.appendChild(bufferSpan);
+                groupDiv.appendChild(rowDiv);
+
+                try {
+                    const sessionHandle = await rootWorkspaceHandle.getDirectoryHandle(name);
+                    const sessionTrackPaths = await discoverSessionTrackPaths(sessionHandle);
+
+                    if (sessionTrackPaths.length === 0) {
+                        const emptyDiv = document.createElement('div');
+                        emptyDiv.className = 'empty-msg';
+                        emptyDiv.textContent = 'No sequence subfolders found inside this session.';
+                        groupDiv.appendChild(emptyDiv);
+                        continue;
+                    }
+
+                    for (const pathMeta of sessionTrackPaths) {
+                        if (!pathMeta.flat) {
+                            const trackLabelDiv = document.createElement('div');
+                            trackLabelDiv.className = 'batch-preview-track-label';
+                            trackLabelDiv.textContent = pathMeta.trackLabel + '\\' + pathMeta.subFolderName;
+                            groupDiv.appendChild(trackLabelDiv);
+                        }
+
+                        const ulList = document.createElement('ul');
+                        ulList.className = 'track-list batch-session-files';
+                        ulList.dataset.sessionName = name;
+
+                        let targetDirHandle;
+                        if (pathMeta.flat) {
+                            targetDirHandle = sessionHandle;
+                        } else {
+                            const parentTrackDir = await sessionHandle.getDirectoryHandle(pathMeta.trackLabel);
+                            targetDirHandle = await parentTrackDir.getDirectoryHandle(pathMeta.subFolderName);
+                        }
+
+                        await loadSequenceFolders(targetDirHandle, ulList, pathMeta.trackLabel, pathMeta.subFolderName, name);
+                        groupDiv.appendChild(ulList);
+                    }
+                } catch (err) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'error';
+                    errorDiv.textContent = 'Error previewing session folder: ' + err.message;
+                    groupDiv.appendChild(errorDiv);
+                }
+            }
+
+            outputDiv.appendChild(groupDiv);
+            updateBatchTotalDurationLabel(sessionNames.length);
+            applyDiskBtn.disabled = false;
+            localTimeBtn.disabled = false;
+            compareBtn.disabled = false;
+            updateBatchModeControlVisibility();
+        }
+
+        function applySelectedTimeToRows(rowList, explicitStartTime = null) {
+            if (customUsToggle.checked && !validateMicrosecondsInput()) {
+                alert("Please provide a valid 6-digit microsecond value first.");
+                return null;
+            }
+
+            const allRows = Array.from(rowList || []);
+            if (allRows.length === 0) return null;
+
+            allRows.sort((a, b) => {
+                const nameA = a.querySelector('.folder-name').textContent.trim();
+                const nameB = b.querySelector('.folder-name').textContent.trim();
+                const numA = parseInt(nameA.match(/-(\d+)$/)?.[1] || 0, 10);
+                const numB = parseInt(nameB.match(/-(\d+)$/)?.[1] || 0, 10);
+                return numA - numB;
+            });
+
+            const targetTime = explicitStartTime ? new Date(explicitStartTime) : (timePicker.value ? new Date(timePicker.value) : new Date());
+            const lYear = targetTime.getFullYear();
+            const lMonth = String(targetTime.getMonth() + 1).padStart(2, '0');
+            const lDay = String(targetTime.getDate()).padStart(2, '0');
+            const lHours = String(targetTime.getHours()).padStart(2, '0');
+            const lMinutes = String(targetTime.getMinutes()).padStart(2, '0');
+            const lSeconds = String(targetTime.getSeconds()).padStart(2, '0');
+            const baseFolderFormat = lYear + "-" + lMonth + "-" + lDay + "-" + lHours + "-" + lMinutes + "-" + lSeconds;
+
+            const laFormatter = new Intl.DateTimeFormat('en-US', {
+                timeZone: 'America/Los_Angeles',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+
+            const parts = laFormatter.formatToParts(targetTime);
+            const laParts = {};
+            parts.forEach(p => laParts[p.type] = p.value);
+            if (laParts.hour === '24') laParts.hour = '00';
+
+            const laSessionStr = laParts.year + "-" + laParts.month + "-" + laParts.day + " " + laParts.hour + ":" + laParts.minute + ":" + laParts.second;
+            let interleavedRunningTime = new Date(laSessionStr.replace(/-/g, '/'));
+            let runningMicroseconds = customUsToggle.checked ? parseInt(customUsInput.value, 10) : 0;
+
+            allRows.forEach((row, index) => {
+                const nameSpan = row.querySelector('.folder-name');
+                const sstSpan = row.querySelector('.sst-field');
+                const tstSpan = row.querySelector('.tst-field');
+                let preservedMs = "";
+
+                if (customUsToggle.checked) {
+                    interleavedRunningTime.setSeconds(interleavedRunningTime.getSeconds() + (index === 0 ? 10 : 4));
+                    const totalRowSeconds = parseFloat(row.dataset.seconds || 0);
+                    const wholeSecondsToInject = Math.floor(totalRowSeconds);
+                    const fractionalUs = Math.round((totalRowSeconds - wholeSecondsToInject) * 1000000);
+                    const dynamicVariance = Math.floor(Math.random() * 75000) + 125000;
+                    const microsecondIncrement = fractionalUs + dynamicVariance + (index * 743);
+                    preservedMs = "." + String(runningMicroseconds).padStart(6, '0');
+
+                    if (sstSpan && sstSpan.textContent !== 'no metadata' && sstSpan.textContent !== 'Checking...') {
+                        sstSpan.className = 'meta-value sst-field';
+                        sstSpan.textContent = laSessionStr;
+                    }
+                    if (tstSpan && tstSpan.textContent !== '—' && tstSpan.textContent !== 'Checking...') {
+                        const nYear = interleavedRunningTime.getFullYear();
+                        const nMonth = String(interleavedRunningTime.getMonth() + 1).padStart(2, '0');
+                        const nDay = String(interleavedRunningTime.getDate()).padStart(2, '0');
+                        const nHours = String(interleavedRunningTime.getHours()).padStart(2, '0');
+                        const nMinutes = String(interleavedRunningTime.getMinutes()).padStart(2, '0');
+                        const nSeconds = String(interleavedRunningTime.getSeconds()).padStart(2, '0');
+                        tstSpan.className = 'meta-value tst-field';
+                        tstSpan.textContent = nYear + "-" + nMonth + "-" + nDay + " " + nHours + ":" + nMinutes + ":" + nSeconds + preservedMs;
+                    }
+
+                    interleavedRunningTime.setSeconds(interleavedRunningTime.getSeconds() + wholeSecondsToInject);
+                    runningMicroseconds += microsecondIncrement;
+                    if (runningMicroseconds >= 1000000) {
+                        const secondsCarried = Math.floor(runningMicroseconds / 1000000);
+                        interleavedRunningTime.setSeconds(interleavedRunningTime.getSeconds() + secondsCarried);
+                        runningMicroseconds = runningMicroseconds % 1000000;
+                    }
+                } else {
+                    if (tstSpan && tstSpan.textContent) {
+                        const msMatch = tstSpan.textContent.trim().match(/\.\d+/);
+                        if (msMatch) preservedMs = msMatch[0];
+                    }
+                    if (!preservedMs) preservedMs = "." + String(targetTime.getMilliseconds()).padStart(3, '0') + "000";
+
+                    if (sstSpan && sstSpan.textContent !== 'no metadata' && sstSpan.textContent !== 'Checking...') {
+                        sstSpan.className = 'meta-value sst-field';
+                        sstSpan.textContent = laSessionStr;
+                    }
+                    if (tstSpan && tstSpan.textContent !== '—' && tstSpan.textContent !== 'Checking...') {
+                        interleavedRunningTime.setSeconds(interleavedRunningTime.getSeconds() + (index === 0 ? 10 : 4));
+                        const nYear = interleavedRunningTime.getFullYear();
+                        const nMonth = String(interleavedRunningTime.getMonth() + 1).padStart(2, '0');
+                        const nDay = String(interleavedRunningTime.getDate()).padStart(2, '0');
+                        const nHours = String(interleavedRunningTime.getHours()).padStart(2, '0');
+                        const nMinutes = String(interleavedRunningTime.getMinutes()).padStart(2, '0');
+                        const nSeconds = String(interleavedRunningTime.getSeconds()).padStart(2, '0');
+                        tstSpan.className = 'meta-value tst-field';
+                        tstSpan.textContent = nYear + "-" + nMonth + "-" + nDay + " " + nHours + ":" + nMinutes + ":" + nSeconds + preservedMs;
+                        interleavedRunningTime.setSeconds(interleavedRunningTime.getSeconds() + Math.floor(parseFloat(row.dataset.seconds || 0)));
+                    }
+                }
+
+                if (nameSpan && nameSpan.textContent) {
+                    const originalName = nameSpan.textContent.trim();
+                    const timeMatch = originalName.match(/^(\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2})/);
+                    if (timeMatch) {
+                        const suffix = originalName.substring(timeMatch[1].length);
+                        nameSpan.textContent = baseFolderFormat + suffix;
+                    } else {
+                        nameSpan.textContent = baseFolderFormat;
+                    }
+                }
+            });
+
+            return calculateTimelineSecondsForRows(allRows);
+        }
+
+        function calculateTimelineSecondsForRows(rows) {
+            let earliestTst = null;
+            let latestEnd = null;
+            let total = 0;
+
+            Array.from(rows || []).forEach(row => {
+                total += parseFloat(row.dataset.seconds || 0);
+                const tstElement = row.querySelector('.tst-field');
+                if (!tstElement) return;
+                const tstText = tstElement.textContent.trim();
+                if (!tstText || tstText === 'Checking...' || tstText === '—') return;
+                const basePart = tstText.split('.')[0].replace(' ', 'T');
+                const startDate = new Date(basePart);
+                if (isNaN(startDate.getTime())) return;
+                const endDate = new Date(startDate);
+                endDate.setSeconds(endDate.getSeconds() + Math.floor(parseFloat(row.dataset.seconds || 0)));
+                if (!earliestTst || startDate < earliestTst) earliestTst = startDate;
+                if (!latestEnd || endDate > latestEnd) latestEnd = endDate;
+            });
+
+            if (!earliestTst || !latestEnd) return total;
+            return Math.max(0, Math.round((latestEnd.getTime() - earliestTst.getTime()) / 1000));
+        }
+
+        function applySelectedTimeToBatchPreview() {
+            if (!batchModeToggle.checked) return;
+            if (customUsToggle.checked && !validateMicrosecondsInput()) return;
+
+            let runningStartTime = timePicker.value ? new Date(timePicker.value) : new Date();
+            const sessionSummaries = Array.from(outputDiv.querySelectorAll('.batch-session-summary'));
+            if (sessionSummaries.length === 0) return;
+
+            sessionSummaries.forEach((summary, index) => {
+                const sessionName = summary.dataset.sessionName;
+                const rows = Array.from(outputDiv.querySelectorAll('.data-row[data-session-name="' + CSS.escape(sessionName) + '"]'));
+                const sessionDurationSeconds = applySelectedTimeToRows(rows, runningStartTime) || calculateTimelineSecondsForRows(rows);
+
+                const statusEl = summary.querySelector('.batch-session-status');
+                if (statusEl) statusEl.textContent = 'Previewed';
+
+                const bufferSeconds = index === sessionSummaries.length - 1 ? 0 : getRandomBufferSeconds();
+                const bufferEl = summary.querySelector('.batch-session-buffer');
+                if (bufferEl && index !== sessionSummaries.length - 1) {
+                    bufferEl.textContent = Math.floor(bufferSeconds / 60) + 'm ' + String(bufferSeconds % 60).padStart(2, '0') + 's';
+                }
+
+                const nextStart = new Date(runningStartTime);
+                nextStart.setSeconds(nextStart.getSeconds() + Math.floor(sessionDurationSeconds) + bufferSeconds);
+                runningStartTime = nextStart;
+            });
+
+            isCustomTimeApplied = true;
+            updateBatchTotalDurationLabel(sessionSummaries.length);
+            logToConsole("🕒 Batch preview values aligned across all session folders with configured buffers.");
+        }
+
+        batchActionSelect.addEventListener('change', () => {
+            if (batchModeToggle.checked) renderBatchSessionFolderList();
+        });
+
+        batchBufferMinInput.addEventListener('input', () => {
+            batchBufferMinInput.value = batchBufferMinInput.value.replace(/[^0-9.]/g, '');
+            if (batchModeToggle.checked) renderBatchSessionFolderList();
+        });
+
+        batchBufferMaxInput.addEventListener('input', () => {
+            batchBufferMaxInput.value = batchBufferMaxInput.value.replace(/[^0-9.]/g, '');
+            if (batchModeToggle.checked) renderBatchSessionFolderList();
+        });
+
+        function getRandomBufferSeconds() {
+            let minMinutes = parseFloat(batchBufferMinInput.value || '4');
+            let maxMinutes = parseFloat(batchBufferMaxInput.value || '5');
+            if (!isFinite(minMinutes)) minMinutes = 4;
+            if (!isFinite(maxMinutes)) maxMinutes = 5;
+            if (minMinutes < 0) minMinutes = 0;
+            if (maxMinutes < minMinutes) maxMinutes = minMinutes;
+            const minSeconds = Math.round(minMinutes * 60);
+            const maxSeconds = Math.round(maxMinutes * 60);
+            return minSeconds + Math.floor(Math.random() * (maxSeconds - minSeconds + 1));
+        }
+
+        function applySelectedTimeToCurrentRows(explicitStartTime = null) {
             if (customUsToggle.checked && !validateMicrosecondsInput()) {
                 alert("Please provide a valid 6-digit microsecond value first.");
                 return;
@@ -1550,8 +2215,10 @@
             let targetTime;
             let baseFolderFormat = "";
 
-            const pickerValue = timePicker.value;
-            targetTime = pickerValue ? new Date(pickerValue) : new Date();
+            targetTime = explicitStartTime ? new Date(explicitStartTime) : (timePicker.value ? new Date(timePicker.value) : new Date());
+            if (explicitStartTime) {
+                timePicker.value = getFormattedLocalTime(targetTime);
+            }
 
             const lYear = targetTime.getFullYear();
             const lMonth = String(targetTime.getMonth() + 1).padStart(2, '0');
@@ -1699,6 +2366,14 @@
                 }
             });
             logToConsole("🕒 App layer values aligned to baseline selection index sequence.");
+        }
+
+        localTimeBtn.addEventListener('click', () => {
+            if (batchModeToggle.checked) {
+                applySelectedTimeToBatchPreview();
+            } else {
+                applySelectedTimeToCurrentRows();
+            }
         });
 
         compareBtn.addEventListener('click', () => {
@@ -1707,6 +2382,14 @@
             
             rows.forEach(row => {
                 if (historyViewActive) {
+                    const nameContainer = row.querySelector('.name-container');
+                    const nameSpan = row.querySelector('.folder-name');
+                    if (nameContainer && !nameContainer.querySelector('.history-name')) {
+                        const historySpan = document.createElement('span');
+                        historySpan.className = 'history-name';
+                        historySpan.textContent = "← Was: " + (row.dataset.diskOriginalName || (nameSpan ? nameSpan.textContent.trim() : ''));
+                        nameContainer.appendChild(historySpan);
+                    }
                     row.classList.add('show-history');
                 } else {
                     row.classList.remove('show-history');
@@ -2009,7 +2692,9 @@
             logToConsole("🔢 Reindex completed successfully.");
         });
 
-        applyDiskBtn.addEventListener('click', async (e) => {
+        async function applyCurrentSessionToDisk(options = {}) {
+            const skipConfirm = !!options.skipConfirm;
+            const e = options.event;
             if (e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -2023,8 +2708,8 @@
             const rows = document.querySelectorAll('.data-row');
             if (rows.length === 0) return;
 
-            if (!confirm("Are you sure you want to write these modifications directly to your local files and folders?")) {
-                return;
+            if (!skipConfirm && !confirm("Are you sure you want to write these modifications directly to your local files and folders?")) {
+                return false;
             }
 
             applyDiskBtn.disabled = true;
@@ -2206,7 +2891,7 @@
 
                             for (const fileEntry of fileEntries) {
                                 if (fileEntry.name.toLowerCase().endsWith('.mp4')) {
-                                    await fileEntry.move(destHandle, "gear-ph-03-" + task.newName + ".mp4");
+                                    await fileEntry.move(destHandle, task.newName + ".mp4");
                                     logToConsole("📹 Renamed Mp4 File: [" + task.pathPrefix + fileEntry.name + "] ➔ [" + task.newName + ".mp4]");
                                 } else {
                                     await fileEntry.move(destHandle);
@@ -2353,10 +3038,12 @@
 
                 logToConsole("\n🎉 All folder, video file, and JSON actions completed successfully!");
                 logToConsole("<div style='color: #27ae60; font-weight: bold;'>🟢 Execution sequence clear. View state aligned with your disk changes.</div>");
+                return true;
 
             } catch (globalError) {
                 logToConsole("\n❌ CRITICAL CRASH during disk deployment phase: " + globalError.message);
                 alert("An error occurred while deploying changes to disk: " + globalError.message);
+                return false;
             } finally {
                 applyDiskBtn.disabled = false;
                 randomizeBtn.disabled = false;
@@ -2364,7 +3051,126 @@
                 selectBtn.disabled = false;
                 parentFolderDropdown.disabled = false;
             }
+        }
+
+        applyDiskBtn.addEventListener('click', async (e) => {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            if (batchModeToggle.checked) {
+                await runBatchAllSessions();
+            } else {
+                await applyCurrentSessionToDisk({ skipConfirm: false });
+            }
         });
+
+        async function runBatchAllSessions() {
+            if (!rootWorkspaceHandle) {
+                alert("Please select a workspace root first.");
+                return;
+            }
+            if (customUsToggle.checked && !validateMicrosecondsInput()) {
+                alert("Please provide a valid 6-digit microsecond value first.");
+                return;
+            }
+
+            const sessionNames = await getEligibleSessionFolderNames();
+            if (sessionNames.length === 0) {
+                alert("No session folders found in the selected root.");
+                return;
+            }
+            if (!confirm("Batch process all " + sessionNames.length + " session folders inside this root?")) {
+                return;
+            }
+
+            batchModeToggle.disabled = true;
+            batchActionChoiceBtns.forEach(btn => btn.disabled = true);
+            selectBtn.disabled = true;
+            parentFolderDropdown.disabled = true;
+            localTimeBtn.disabled = true;
+            randomizeBtn.disabled = true;
+            reindexBtn.disabled = true;
+            applyDiskBtn.disabled = true;
+
+            clearConsole();
+            logToConsole("🚀 Batch mode started for " + sessionNames.length + " session folders.");
+
+            let runningStartTime = timePicker.value ? new Date(timePicker.value) : new Date();
+
+            for (let i = 0; i < sessionNames.length; i++) {
+                const sessionName = sessionNames[i];
+                logToConsole("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+                logToConsole("▶ Processing session " + (i + 1) + "/" + sessionNames.length + ": " + sessionName);
+                const queueRow = outputDiv.querySelector('.batch-session-row[data-session-name="' + CSS.escape(sessionName) + '"]');
+                if (queueRow) {
+                    const statusEl = queueRow.querySelector('.batch-session-status');
+                    if (statusEl) statusEl.textContent = 'Processing...';
+                    queueRow.scrollIntoView({ block: 'nearest' });
+                }
+
+                const loaded = await loadSessionContextByName(sessionName, true);
+                if (!loaded) {
+                    logToConsole("⚠️ Skipped session because it could not be loaded: " + sessionName);
+                    if (queueRow) {
+                        const statusEl = queueRow.querySelector('.batch-session-status');
+                        if (statusEl) statusEl.textContent = 'Skipped';
+                    }
+                    continue;
+                }
+
+                applySelectedTimeToCurrentRows(runningStartTime);
+                const selectedBatchAction = batchActionSelect.value || 'reindex';
+                if (selectedBatchAction === 'randomize') {
+                    randomizeBtn.click();
+                    await waitForBatchActionToFinish('randomize');
+                } else {
+                    reindexBtn.click();
+                    await waitForBatchActionToFinish('reindex');
+                }
+                const sessionDurationSeconds = calculateCurrentSessionTimelineSeconds();
+                const applied = await applyCurrentSessionToDisk({ skipConfirm: true });
+                if (!applied) {
+                    logToConsole("⚠️ Batch stopped because disk apply failed for: " + sessionName);
+                    if (queueRow) {
+                        const statusEl = queueRow.querySelector('.batch-session-status');
+                        if (statusEl) statusEl.textContent = 'Failed';
+                    }
+                    break;
+                }
+                if (queueRow) {
+                    const statusEl = queueRow.querySelector('.batch-session-status');
+                    if (statusEl) statusEl.textContent = 'Done';
+                }
+
+                const bufferSeconds = getRandomBufferSeconds();
+                const nextStart = new Date(runningStartTime);
+                nextStart.setSeconds(nextStart.getSeconds() + Math.floor(sessionDurationSeconds) + bufferSeconds);
+                logToConsole("⏱️ Session duration: " + formatDuration(sessionDurationSeconds) + ". Next session buffer: " + Math.floor(bufferSeconds / 60) + "m " + String(bufferSeconds % 60).padStart(2, '0') + "s.");
+                runningStartTime = nextStart;
+            }
+
+            logToConsole("\n🎉 Batch mode completed.");
+            if (batchModeToggle.checked) {
+                await renderBatchSessionFolderList();
+            }
+            batchModeToggle.disabled = false;
+            batchActionSelect.disabled = false;
+            batchActionChoiceBtns.forEach(btn => btn.disabled = false);
+            selectBtn.disabled = false;
+            parentFolderDropdown.disabled = false;
+            localTimeBtn.disabled = false;
+            if (batchModeToggle.checked) {
+                randomizeBtn.disabled = true;
+                reindexBtn.disabled = true;
+                compareBtn.disabled = false;
+            } else {
+                randomizeBtn.disabled = false;
+                reindexBtn.disabled = false;
+            }
+            applyDiskBtn.disabled = false;
+            updateBatchModeControlVisibility();
+        }
 
         // --- Log Viewer Modal Logic ---
         viewLogsBtn.addEventListener('click', async () => {
