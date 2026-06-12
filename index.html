@@ -2891,7 +2891,7 @@
 
                             for (const fileEntry of fileEntries) {
                                 if (fileEntry.name.toLowerCase().endsWith('.mp4')) {
-                                    await fileEntry.move(destHandle, task.newName + ".mp4");
+                                    await fileEntry.move(destHandle, "gear-ph-03-" + task.newName + ".mp4");
                                     logToConsole("📹 Renamed Mp4 File: [" + task.pathPrefix + fileEntry.name + "] ➔ [" + task.newName + ".mp4]");
                                 } else {
                                     await fileEntry.move(destHandle);
